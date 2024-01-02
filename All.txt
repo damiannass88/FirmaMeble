@@ -1,0 +1,345 @@
+public partial class Adres
+{
+    [Key]
+    public int IdAdresu { get; set; }
+
+    [StringLength(50)]
+    public string? Miejscowosc { get; set; }
+
+    [StringLength(50)]
+    public string? Ulica { get; set; }
+
+    [StringLength(50)]
+    public string? NrDomu { get; set; }
+
+    [StringLength(50)]
+    public string? NrLokalu { get; set; }
+
+    [StringLength(50)]
+    public string? KodPocztowy { get; set; }
+
+    [InverseProperty("IdAdresuNavigation")]
+    public virtual ICollection<Kontrahent> Kontrahents { get; set; } = new List<Kontrahent>();
+}
+
+public partial class Dostawca
+{
+    [Key]
+    public int IdDostawcy { get; set; }
+
+    [StringLength(100)]
+    public string NazwaFirmy { get; set; }
+
+    [StringLength(50)]
+    public string NIP { get; set; }
+
+    [ForeignKey("Adres")]
+    public int IdAdresu { get; set; }
+    public virtual Adres Adres { get; set; }
+}
+
+public partial class Faktura
+{
+    [Key]
+    public int IdFaktury { get; set; }
+
+    [StringLength(50)]
+    public string? Numer { get; set; }
+
+    [Column(TypeName = "date")]
+    public DateTime? DataWystawienia { get; set; }
+
+    public int? IdKontrahenta { get; set; }
+
+    [Column(TypeName = "date")]
+    public DateTime? TerminPlatnosci { get; set; }
+
+    public int? IdSposobuPlatnosci { get; set; }
+
+    [ForeignKey("IdKontrahenta")]
+    [InverseProperty("Fakturas")]
+    public virtual Kontrahent? IdKontrahentaNavigation { get; set; }
+
+    [ForeignKey("IdSposobuPlatnosci")]
+    [InverseProperty("Fakturas")]
+    public virtual SposobPlatnosci? IdSposobuPlatnosciNavigation { get; set; }
+
+    [InverseProperty("IdFakturyNavigation")]
+    public virtual ICollection<PozycjaFaktury> PozycjaFakturies { get; set; } = new List<PozycjaFaktury>();
+}
+
+ public class FakturaForView
+ {
+     public int IdFaktury { get; set; }
+     public string? Numer { get; set; }
+     public DateTime? DataWystawienia { get; set; }
+     //poniższe pola będą zamiast idKontrahenta
+     public string? KontrahentNazwa { get; set; }
+     public string? KontrahentNIP { get; set; }
+     public string? KontrahentAdres { get; set; }
+     public DateTime? TerminPlatnosci { get; set; }
+     //to pole jest zamiast idSposobuPlatnosci
+     public string SposobPlatnosciNazwa { get; set; }
+ }
+ 
+ [Table("Kontrahent")]
+public partial class Kontrahent
+{
+    [Key]
+    public int IdKontrahenta { get; set; }
+
+    [StringLength(10)]
+    public string? Kod { get; set; }
+
+    [StringLength(50)]
+    public string? Nazwa { get; set; }
+
+    [StringLength(50)]
+    public string? Nip { get; set; }
+
+    public int? IdRodzaju { get; set; }
+
+    public int? IdStatusu { get; set; }
+
+    public int? IdAdresu { get; set; }
+
+    [InverseProperty("IdKontrahentaNavigation")]
+    public virtual ICollection<Faktura> Fakturas { get; set; } = new List<Faktura>();
+
+    [ForeignKey("IdAdresu")]
+    [InverseProperty("Kontrahents")]
+    public virtual Adres? IdAdresuNavigation { get; set; }
+
+    [ForeignKey("IdRodzaju")]
+    [InverseProperty("Kontrahents")]
+    public virtual Rodzaj? IdRodzajuNavigation { get; set; }
+
+    [ForeignKey("IdStatusu")]
+    [InverseProperty("Kontrahents")]
+    public virtual Status? IdStatusuNavigation { get; set; }
+}
+
+ public partial class Magazyn
+ {
+     [Key]
+     public int IdMagazynu { get; set; }
+
+     [StringLength(100)]
+     public string Lokalizacja { get; set; }
+
+     public int Pojemność { get; set; }
+
+     [ForeignKey("Adres")]
+     public int IdAdresu { get; set; }
+     public virtual Adres Adres { get; set; }
+ }
+ 
+ [Table("PozycjaFaktury")]
+public partial class PozycjaFaktury
+{
+    [Key]
+    public int IdPozycjiFaktury { get; set; }
+
+    public int? IdFaktury { get; set; }
+
+    public int? IdTowaru { get; set; }
+
+    [Column(TypeName = "decimal(18, 0)")]
+    public decimal? Cena { get; set; }
+
+    [Column(TypeName = "decimal(18, 0)")]
+    public decimal? Ilosc { get; set; }
+
+    [Column(TypeName = "decimal(18, 0)")]
+    public decimal? Rabat { get; set; }
+
+    [ForeignKey("IdFaktury")]
+    [InverseProperty("PozycjaFakturies")]
+    public virtual Faktura? IdFakturyNavigation { get; set; }
+
+    [ForeignKey("IdTowaru")]
+    [InverseProperty("PozycjaFakturies")]
+    public virtual Towar? IdTowaruNavigation { get; set; }
+}
+
+
+ public partial class Pracownik
+ {
+     [Key]
+     public int IdPracownika { get; set; }
+
+     [StringLength(50)]
+     public string Imię { get; set; }
+
+     [StringLength(50)]
+     public string Nazwisko { get; set; }
+
+     [StringLength(50)]
+     public string Stanowisko { get; set; }
+
+     [ForeignKey("Adres")]
+     public int IdAdresu { get; set; }
+     public virtual Adres Adres { get; set; }
+
+     [Column(TypeName = "date")]
+     public DateTime DataZatrudnienia { get; set; }
+ }
+ 
+ 
+    public partial class ProdukcjaMebla
+    {
+        [Key]
+        public int IdProdukcji { get; set; }
+
+        [ForeignKey("Towar")]
+        public int IdTowaru { get; set; }
+        public virtual Towar Towar { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime DataRozpoczęcia { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime DataZakończenia { get; set; }
+
+        public int IlośćProdukowanychSztuk { get; set; }
+
+        [ForeignKey("Pracownik")]
+        public int IdPracownika { get; set; }
+        public virtual Pracownik Pracownik { get; set; }
+
+        [StringLength(50)]
+        public string StatusProdukcji { get; set; }
+    }
+	
+	
+[Table("Rodzaj")]
+public partial class Rodzaj
+{
+    [Key]
+    public int IdRodzaju { get; set; }
+
+    [StringLength(50)]
+    public string? Nazwa { get; set; }
+
+    [InverseProperty("IdRodzajuNavigation")]
+    public virtual ICollection<Kontrahent> Kontrahents { get; set; } = new List<Kontrahent>();
+}
+
+
+[Table("SposobPlatnosci")]
+public partial class SposobPlatnosci
+{
+    [Key]
+    public int IdSposobuPlatnosci { get; set; }
+
+    [StringLength(50)]
+    public string? Nazwa { get; set; }
+
+    [InverseProperty("IdSposobuPlatnosciNavigation")]
+    public virtual ICollection<Faktura> Fakturas { get; set; } = new List<Faktura>();
+}
+
+
+
+[Table("Status")]
+public partial class Status
+{
+    [Key]
+    public int IdStatusu { get; set; }
+
+    [StringLength(50)]
+    public string? Nazwa { get; set; }
+
+    [InverseProperty("IdStatusuNavigation")]
+    public virtual ICollection<Kontrahent> Kontrahents { get; set; } = new List<Kontrahent>();
+}
+
+
+
+    public partial class SzczegolyZamowienia
+    {
+        [Key]
+        public int IdSzczegolyZamowienia { get; set; }
+
+        [ForeignKey("Zamowienie")]
+        public int IdZamowienia { get; set; }
+        public virtual Zamowienie Zamowienie { get; set; }
+
+        [ForeignKey("Towar")]
+        public int IdTowaru { get; set; }
+        public virtual Towar Towar { get; set; }
+
+        public int Ilość { get; set; }
+
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal CenaZaSztuke { get; set; }
+    }
+	
+	
+[Table("Towar")]
+public partial class Towar
+{
+    [Key]
+    public int IdTowaru { get; set; }
+
+    [StringLength(50)]
+    public string? Kod { get; set; }
+
+    [StringLength(50)]
+    public string? Nazwa { get; set; }
+
+    [Column(TypeName = "decimal(18, 0)")]
+    public decimal? StawkaVatSprzedazy { get; set; }
+
+    [Column(TypeName = "decimal(18, 0)")]
+    public decimal? StawkaVatZakupu { get; set; }
+
+    [Column(TypeName = "decimal(18, 0)")]
+    public decimal? Cena { get; set; }
+
+    [Column(TypeName = "decimal(18, 0)")]
+    public decimal? Marza { get; set; }
+
+    [InverseProperty("IdTowaruNavigation")]
+    public virtual ICollection<PozycjaFaktury> PozycjaFakturies { get; set; } = new List<PozycjaFaktury>();
+}
+
+
+
+    public partial class ZakupMaterialow
+    {
+        [Key]
+        public int IdZakupu { get; set; }
+
+        [ForeignKey("Dostawca")]
+        public int IdDostawcy { get; set; }
+        public virtual Dostawca Dostawca { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime DataZakupu { get; set; }
+
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Kwota { get; set; }
+
+        [StringLength(255)]
+        public string Opis { get; set; }
+    }
+	
+	 public partial class Zamowienie
+ {
+     [Key]
+     public int IdZamowienia { get; set; }
+
+     [ForeignKey("Kontrahent")]
+     public int IdKlienta { get; set; }
+     public virtual Kontrahent Klient { get; set; }
+
+     [Column(TypeName = "date")]
+     public DateTime DataZamowienia { get; set; }
+
+     [StringLength(50)]
+     public string StatusZamowienia { get; set; }
+
+     [Column(TypeName = "date")]
+     public DateTime? PrzewidywanaDataDostawy { get; set; }
+ }
