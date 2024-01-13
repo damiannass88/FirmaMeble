@@ -1,134 +1,113 @@
-﻿namespace FirmaMeble.ViewModels
+﻿// ReSharper disable UnusedMember.Global
+namespace FirmaMeble.ViewModels
 {
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Windows.Data;
     using System.Windows.Input;
-    using FirmaMeble.Helpers;
+    using Commands;
 
     public class MainWindowViewModel : BaseViewModel
     {
-        public ICommand TowarCommand
+        private static readonly MainWindowViewModel Instance = new();
+
+        public MainWindowViewModel()
         {
-            get
-            {
-                //komenda wy....
-                return new BaseCommand(CreateTowar);
-            }
+            WorkspacesTabViewsCollection = new ObservableCollection<WorkspaceViewModel>();
+            WorkspacesTabViewsCollection.CollectionChanged += OnWorkspacesTabViewsCollectionChanged;
         }
 
-        public ICommand TowaryCommand
+        public ICommand CreateTowarCommand => new RelayCommand(CreateTowar);
+
+        public ICommand ShowAllTowaryCommand => new RelayCommand(ShowAllTowar);
+
+        public ICommand CreatePracownikCommand => new RelayCommand(CreatePracownik);
+
+        public ICommand ShowAllPracownicyCommand => new RelayCommand(ShowAllPracownicy);
+
+        public ICommand CreateFakturaCommand => new RelayCommand(CreateFaktura);
+
+        public ICommand ShowAllFakturyCommand => new RelayCommand(ShowAllFaktury);
+
+        public ReadOnlyCollection<CommandViewModel> GetAvailableCommands => new(CreateCommands());
+
+        public ObservableCollection<WorkspaceViewModel> WorkspacesTabViewsCollection { get; set; }
+
+        public static MainWindowViewModel GetInstance()
         {
-            get
-            {
-                return new BaseCommand(ShowAllTowar);
-            }
-        }
-
-        private ReadOnlyCollection<CommandViewModel> _Commands;
-
-        public ReadOnlyCollection<CommandViewModel> Commands
-        {
-            get
-            {
-                if (_Commands == null)
-                {
-                    List<CommandViewModel> cmds = CreateCommands();
-                    //i ...
-                    _Commands = new ReadOnlyCollection<CommandViewModel>(cmds);
-                }
-
-                return _Commands;
-            }
+            return Instance;
         }
 
         private List<CommandViewModel> CreateCommands()
         {
-            //tworze....
-            return new List<CommandViewModel>
-            {
-                //tu decyduje 
-                new CommandViewModel("Towar",new BaseCommand(CreateTowar)),
-                new CommandViewModel("Towary",new BaseCommand(ShowAllTowar)),
-                new CommandViewModel("Pracownik",new BaseCommand(CreatePracownik)),
-                new CommandViewModel("Pracownicy",new BaseCommand(ShowAllPracownicy)),
-                new CommandViewModel("Faktura",new BaseCommand(CreateFaktura)),
-                new CommandViewModel("Faktury",new BaseCommand(ShowAllFaktury)),
-            };
+            return
+            [
+                new CommandViewModel("Towar", new RelayCommand(CreateTowar)),
+                new CommandViewModel("Towary", new RelayCommand(ShowAllTowar)),
+                new CommandViewModel("Pracownik", new RelayCommand(CreatePracownik)),
+                new CommandViewModel("Pracownicy", new RelayCommand(ShowAllPracownicy)),
+                new CommandViewModel("Faktura", new RelayCommand(CreateFaktura)),
+                new CommandViewModel("Faktury", new RelayCommand(ShowAllFaktury))
+            ];
         }
 
-        private ObservableCollection<WorkspaceViewModel> _Workspaces;
-
-        public ObservableCollection<WorkspaceViewModel> Workspaces
+        private void OnWorkspacesTabViewsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            get
+            if (e.NewItems != null && e.NewItems.Count != 0)
             {
-                if (_Workspaces == null)
+                foreach (WorkspaceViewModel workspace in e.NewItems)
                 {
-                    _Workspaces = new ObservableCollection<WorkspaceViewModel>();
-                    _Workspaces.CollectionChanged += this.onWorkspacesChanged;
+                    workspace.RequestClose += OnWorkspaceRequestClose;
                 }
+            }
 
-                return _Workspaces;
+            if (e.OldItems != null && e.OldItems.Count != 0)
+            {
+                foreach (WorkspaceViewModel workspace in e.OldItems)
+                {
+                    workspace.RequestClose -= OnWorkspaceRequestClose;
+                }
             }
         }
 
-        private void onWorkspacesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnWorkspaceRequestClose(object sender, EventArgs e)
         {
-            if (e.NewItems != null && e.NewItems.Count != 0)
-                foreach (WorkspaceViewModel workspace in e.NewItems)
-                    workspace.RequestClose += this.onWorkspaceRequestClose;
-
-            if (e.OldItems != null && e.OldItems.Count != 0)
-                foreach (WorkspaceViewModel workspace in e.OldItems)
-                    workspace.RequestClose -= this.onWorkspaceRequestClose;
-        }
-
-        private void onWorkspaceRequestClose(object sender, EventArgs e)
-        {
-            WorkspaceViewModel workspace = sender as WorkspaceViewModel;
-            //workspace.Dispos();
-            this.Workspaces.Remove(workspace);
+            if (sender is WorkspaceViewModel workspace)
+            {
+                WorkspacesTabViewsCollection.Remove(workspace);
+            }
         }
 
         private void CreateTowar()
         {
-            //1. Naj...
-            NowyTowarViewModel workspace = new NowyTowarViewModel();
-            //2. 
-            Workspaces.Add(workspace);
-            //3. 
+            NowyTowarViewModel workspace = new();
+            WorkspacesTabViewsCollection.Add(workspace);
             SetActiveWorkspace(workspace);
         }
 
         private void CreatePracownik()
         {
-            NowyPracownikViewModel workspace = new NowyPracownikViewModel();
-            Workspaces.Add(workspace);
+            NowyPracownikViewModel workspace = new();
+            WorkspacesTabViewsCollection.Add(workspace);
             SetActiveWorkspace(workspace);
         }
 
         private void CreateFaktura()
         {
-            NowaFakturaViewModel workspace = new NowaFakturaViewModel();
-            Workspaces.Add(workspace);
+            NowaFakturaViewModel workspace = new();
+            WorkspacesTabViewsCollection.Add(workspace);
             SetActiveWorkspace(workspace);
         }
 
 
         private void ShowAllTowar()
         {
-            WszystkieTowaryViewModel workspace = Workspaces.FirstOrDefault(vm => vm is WszystkieTowaryViewModel)
-                as WszystkieTowaryViewModel;
-            //Jeżeli takiej zakładki brak
-            if (workspace == null)
+            if (WorkspacesTabViewsCollection.FirstOrDefault(vm => vm is WszystkieTowaryViewModel) is not
+                WszystkieTowaryViewModel workspace)
             {
-                //to tworze nową
                 workspace = new WszystkieTowaryViewModel();
-                //i dodaje ją do kolekcji zakładek
-                Workspaces.Add(workspace);
+                WorkspacesTabViewsCollection.Add(workspace);
             }
 
             SetActiveWorkspace(workspace);
@@ -136,12 +115,13 @@
 
         private void ShowAllPracownicy()
         {
-            WszyscyPracownicyViewModel workspace = Workspaces.FirstOrDefault(vm => vm is WszyscyPracownicyViewModel)
-                 as WszyscyPracownicyViewModel;
+            WszyscyPracownicyViewModel? workspace =
+                WorkspacesTabViewsCollection.FirstOrDefault(vm => vm is WszyscyPracownicyViewModel)
+                    as WszyscyPracownicyViewModel;
             if (workspace == null)
             {
                 workspace = new WszyscyPracownicyViewModel();
-                Workspaces.Add(workspace);
+                WorkspacesTabViewsCollection.Add(workspace);
             }
 
             SetActiveWorkspace(workspace);
@@ -149,12 +129,11 @@
 
         private void ShowAllFaktury()
         {
-            WszystkieFakturyViewModel workspace = Workspaces.FirstOrDefault(vm => vm is WszystkieFakturyViewModel)
-                 as WszystkieFakturyViewModel;
-            if (workspace == null)
+            if (WorkspacesTabViewsCollection.FirstOrDefault(vm => vm is WszystkieFakturyViewModel) is not
+                WszystkieFakturyViewModel workspace)
             {
                 workspace = new WszystkieFakturyViewModel();
-                Workspaces.Add(workspace);
+                WorkspacesTabViewsCollection.Add(workspace);
             }
 
             SetActiveWorkspace(workspace);
@@ -162,10 +141,9 @@
 
         private void SetActiveWorkspace(WorkspaceViewModel workspace)
         {
-            Debug.Assert(this.Workspaces.Contains(workspace));
-            ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.Workspaces);
-            if (collectionView != null)
-                collectionView.MoveCurrentTo(workspace);
+            //Debug.Assert(WorkspacesTabViewsCollection.Contains(workspace));
+            ICollectionView? collectionView = CollectionViewSource.GetDefaultView(WorkspacesTabViewsCollection);
+            collectionView?.MoveCurrentTo(workspace);
         }
     }
 }

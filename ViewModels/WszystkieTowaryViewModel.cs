@@ -1,7 +1,9 @@
-﻿namespace FirmaMeble.ViewModels
+﻿using FirmaMeble.Data.Models;
+
+namespace FirmaMeble.ViewModels
 {
     using System.Collections.ObjectModel;
-    using FirmaMeble.Data.Repositories;
+    using FirmaMeble.ViewModels.Abstracts;
 
     public class WszystkieTowaryViewModel : WszystkieViewModel<Towar>
     {
@@ -10,13 +12,13 @@
         {
         }
 
-        public override void load()
+        public override void Load()
         {
             List = new ObservableCollection<Towar>
                 (
                     //z bazy danych pobieram wszystkie towary
                     //tu bedzie zapytanie Linq, ....
-                    fakturyEntities.Towars
+                    DbEntities.Towars
                 );
         }
     }

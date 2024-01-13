@@ -1,37 +1,40 @@
 ﻿namespace FirmaMeble.ViewModels
 {
     using System.Collections.ObjectModel;
-    using FirmaMeble.Data.Repositories;
+    using Data.Models;
+    using FirmaMeble.ViewModels.Abstracts;
 
     public class WszystkieFakturyViewModel : WszystkieViewModel<FakturaForView>
     {
         public WszystkieFakturyViewModel()
-        : base("Faktury")
+            : base("Faktury")
         {
         }
 
-        public override void load()
+        public override void Load()
         {
-            List = new ObservableCollection<FakturaForView>
-                (
-                    //dla każdej fatury z bazy danych faktur
-                    from faktura in fakturyEntities.Fakturas
-                        //tworzymy nową FakturęForView
-                    select new FakturaForView
-                    {
-                        IdFaktury = faktura.IdFaktury,//id nowej faktury ustawiamy takie jak id faktury z bazy danych
-                        Numer = faktura.Numer,
-                        DataWystawienia = faktura.DataWystawienia,
-                        KontrahentNazwa = faktura.IdKontrahentaNavigation.Nazwa,
-                        KontrahentNIP = faktura.IdKontrahentaNavigation.Nip,
-                        KontrahentAdres =
-                        faktura.IdKontrahentaNavigation.IdAdresuNavigation.Miejscowosc + " "
-                        + faktura.IdKontrahentaNavigation.IdAdresuNavigation.Ulica + " "
-                        + faktura.IdKontrahentaNavigation.IdAdresuNavigation.NrDomu,
-                        TerminPlatnosci = faktura.TerminPlatnosci,
-                        SposobPlatnosciNazwa = faktura.IdSposobuPlatnosciNavigation.Nazwa
-                    }
-                );
+            var fakturas = DbEntities.Fakturas;
+            var fakturaForViews = fakturas.Select(faktura => CreateFakturaForView(faktura));
+            List = new ObservableCollection<FakturaForView>(fakturaForViews);
+        }
+        private FakturaForView CreateFakturaForView(Faktura faktura)
+        {
+            return new FakturaForView
+            {
+                IdFaktury = faktura.IdFaktury,
+                Numer = faktura.Numer,
+                DataWystawienia = faktura.DataWystawienia,
+                KontrahentNazwa = faktura.IdKontrahentaNavigation?.Nazwa,
+                KontrahentNIP = faktura.IdKontrahentaNavigation?.Nip,
+                KontrahentAdres = CreateKontrahentAdres(faktura),
+                TerminPlatnosci = faktura.TerminPlatnosci,
+                SposobPlatnosciNazwa = faktura.IdSposobuPlatnosciNavigation.Nazwa
+            };
+        }
+        private string CreateKontrahentAdres(Faktura faktura)
+        {
+            var adres = faktura.IdKontrahentaNavigation?.IdAdresuNavigation;
+            return $"{adres.Miejscowosc} {adres.Ulica} {adres.NrDomu}";
         }
     }
 }

@@ -4,14 +4,13 @@
 
     public class CommandViewModel : BaseViewModel
     {
-        //ka...
-        public string DisplayName { get; set; }
+        public string DisplayAsideName { get; set; }
 
         public ICommand Command { get; set; }
 
-        public CommandViewModel(string displayName, ICommand command)
+        public CommandViewModel(string displayAsideName, ICommand command)
         {
-            DisplayName = displayName;
+            DisplayAsideName = displayAsideName;
             Command = command;
         }
     }

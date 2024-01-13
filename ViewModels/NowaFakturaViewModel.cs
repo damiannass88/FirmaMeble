@@ -1,110 +1,89 @@
 ﻿namespace FirmaMeble.ViewModels
 {
-    using FirmaMeble.Data.Repositories;
+    using Data.Models;
 
     public class NowaFakturaViewModel : JedenViewModel<Faktura>
     {
         public NowaFakturaViewModel()
             : base("Faktura")
         {
-            item = new Faktura();
+            Item = new Faktura();
         }
 
         public string? Numer
         {
-            get
-            {
-                return item.Numer;
-            }
+            get => Item.Numer;
 
             set
             {
-                if (item.Numer != value)
+                if (Item.Numer != value)
                 {
-                    item.Numer = value;
-                    base.OnPropertyChanged(() => Numer);
+                    Item.Numer = value;
+                    OnPropertyChanged(() => Numer);
                 }
             }
         }
 
         public DateTime? DataWystawienia
         {
-            get
-            {
-                return item.DataWystawienia;
-            }
+            get => Item.DataWystawienia;
 
             set
             {
-                if (item.DataWystawienia != value)
+                if (Item.DataWystawienia != value)
                 {
-                    item.DataWystawienia = value;
-                    base.OnPropertyChanged(() => DataWystawienia);
+                    Item.DataWystawienia = value;
+                    OnPropertyChanged(() => DataWystawienia);
                 }
             }
         }
 
         public int? IdKontrahenta
         {
-            get
-            {
-                return item.IdKontrahenta;
-            }
+            get => Item.IdKontrahenta;
 
             set
             {
-                if (item.IdKontrahenta != value)
+                if (Item.IdKontrahenta != value)
                 {
-                    item.IdKontrahenta = value;
-                    base.OnPropertyChanged(() => IdKontrahenta);
+                    Item.IdKontrahenta = value;
+                    OnPropertyChanged(() => IdKontrahenta);
                 }
             }
         }
 
         public DateTime? TerminPlatnosci
         {
-            get
-            {
-                return item.TerminPlatnosci;
-            }
+            get => Item.TerminPlatnosci;
 
             set
             {
-                if (item.TerminPlatnosci != value)
+                if (Item.TerminPlatnosci != value)
                 {
-                    item.TerminPlatnosci = value;
-                    base.OnPropertyChanged(() => TerminPlatnosci);
+                    Item.TerminPlatnosci = value;
+                    OnPropertyChanged(() => TerminPlatnosci);
                 }
             }
         }
 
         public int? IdSposobuPlatnosci
         {
-            get
-            {
-                return item.IdSposobuPlatnosci;
-            }
+            get => Item.IdSposobuPlatnosci;
 
             set
             {
-                if (item.IdSposobuPlatnosci != value)
+                if (Item.IdSposobuPlatnosci != value)
                 {
-                    item.IdSposobuPlatnosci = value;
-                    base.OnPropertyChanged(() => IdSposobuPlatnosci);
+                    Item.IdSposobuPlatnosci = value;
+                    OnPropertyChanged(() => IdSposobuPlatnosci);
                 }
             }
         }
 
-        public IQueryable<SposobPlatnosci> SposobPlatnosciComboBoxItems
-        {
-            get
-            {
-                return
-                    (
-                        from sposobPlatnosci in fakturyEntities.SposobPlatnoscis
-                        select sposobPlatnosci
-                    ).ToList().AsQueryable();
-            }
-        }
+        public IQueryable<SposobPlatnosci> SposobPlatnosciComboBoxItems =>
+        (
+            from sposobPlatnosci in FakturyEntities.SposobPlatnoscis
+            select sposobPlatnosci
+        ).ToList().AsQueryable();
     }
 }

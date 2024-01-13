@@ -1,27 +1,28 @@
-﻿namespace FirmaMeble.ViewModels
-{
-    using FirmaMeble.Data.Repositories;
+﻿using FirmaMeble.Data.Models;
+using FirmaMeble.ViewModels.Abstracts;
 
+namespace FirmaMeble.ViewModels
+{
     public class NowyTowarViewModel : JedenViewModel<Towar>
     {
         public NowyTowarViewModel()
             : base("Towar")
         {
-            item = new Towar();
+            Item = new Towar();
         }
 
         public string Kod
         {
             get
             {
-                return item.Kod;
+                return Item.Kod;
             }
 
             set
             {
-                if (item.Kod != value)
+                if (Item.Kod != value)
                 {
-                    item.Kod = value;
+                    Item.Kod = value;
                     OnPropertyChanged(() => Kod);
                 }
             }
@@ -31,14 +32,14 @@
         {
             get
             {
-                return item.Nazwa;
+                return Item.Nazwa;
             }
 
             set
             {
-                if (item.Nazwa != value)
+                if (Item.Nazwa != value)
                 {
-                    item.Nazwa = value;
+                    Item.Nazwa = value;
                     OnPropertyChanged(() => Nazwa);
                 }
             }
@@ -48,14 +49,14 @@
         {
             get
             {
-                return item.StawkaVatSprzedazy;
+                return Item.StawkaVatSprzedazy;
             }
 
             set
             {
-                if (item.StawkaVatSprzedazy != value)
+                if (Item.StawkaVatSprzedazy != value)
                 {
-                    item.StawkaVatSprzedazy = value;
+                    Item.StawkaVatSprzedazy = value;
                     OnPropertyChanged(() => StawkaVatSprzedazy);
                 }
             }
@@ -65,14 +66,14 @@
         {
             get
             {
-                return item.StawkaVatZakupu;
+                return Item.StawkaVatZakupu;
             }
 
             set
             {
-                if (item.StawkaVatZakupu != value)
+                if (Item.StawkaVatZakupu != value)
                 {
-                    item.StawkaVatZakupu = value;
+                    Item.StawkaVatZakupu = value;
                     OnPropertyChanged(() => StawkaVatZakupu);
                 }
             }
@@ -82,14 +83,14 @@
         {
             get
             {
-                return item.Cena;
+                return Item.Cena;
             }
 
             set
             {
-                if (item.Cena != value)
+                if (Item.Cena != value)
                 {
-                    item.Cena = value;
+                    Item.Cena = value;
                     OnPropertyChanged(() => Cena);
                 }
             }
@@ -99,14 +100,14 @@
         {
             get
             {
-                return item.Marza;
+                return Item.Marza;
             }
 
             set
             {
-                if (item.Marza != value)
+                if (Item.Marza != value)
                 {
-                    item.Marza = value;
+                    Item.Marza = value;
                     OnPropertyChanged(() => Marza);
                 }
             }

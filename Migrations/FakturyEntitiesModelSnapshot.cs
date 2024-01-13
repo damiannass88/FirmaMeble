@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FirmaMeble.Migrations
 {
-    [DbContext(typeof(FakturyEntities))]
+    [DbContext(typeof(DataBaseEntities))]
     partial class FakturyEntitiesModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace FirmaMeble.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Adres", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Adres", b =>
                 {
                     b.Property<int>("IdAdresu")
                         .ValueGeneratedOnAdd()
@@ -53,9 +53,29 @@ namespace FirmaMeble.Migrations
                     b.HasKey("IdAdresu");
 
                     b.ToTable("Adres");
+
+                    b.HasData(
+                        new
+                        {
+                            IdAdresu = 1,
+                            KodPocztowy = "00-950",
+                            Miejscowosc = "Warszawa",
+                            NrDomu = "10",
+                            NrLokalu = "15",
+                            Ulica = "Marszałkowska"
+                        },
+                        new
+                        {
+                            IdAdresu = 2,
+                            KodPocztowy = "31-019",
+                            Miejscowosc = "Kraków",
+                            NrDomu = "5",
+                            NrLokalu = "2",
+                            Ulica = "Floriańska"
+                        });
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Dostawca", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Dostawca", b =>
                 {
                     b.Property<int>("IdDostawcy")
                         .ValueGeneratedOnAdd()
@@ -83,7 +103,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("Dostawcas");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Faktura", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Faktura", b =>
                 {
                     b.Property<int>("IdFaktury")
                         .ValueGeneratedOnAdd()
@@ -114,9 +134,23 @@ namespace FirmaMeble.Migrations
                     b.HasIndex("IdSposobuPlatnosci");
 
                     b.ToTable("Faktura");
+
+                    b.HasData(
+                        new
+                        {
+                            IdFaktury = 1
+                        },
+                        new
+                        {
+                            IdFaktury = 2,
+                            DataWystawienia = new DateTime(2024, 1, 7, 19, 28, 54, 23, DateTimeKind.Local).AddTicks(3354),
+                            IdKontrahenta = 1,
+                            Numer = "FV/2024/01",
+                            TerminPlatnosci = new DateTime(2024, 2, 6, 19, 28, 54, 23, DateTimeKind.Local).AddTicks(3404)
+                        });
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.FakturaForView", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.FakturaForView", b =>
                 {
                     b.Property<int>("IdFaktury")
                         .ValueGeneratedOnAdd()
@@ -151,7 +185,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("FakturaForViews");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Kontrahent", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Kontrahent", b =>
                 {
                     b.Property<int>("IdKontrahenta")
                         .ValueGeneratedOnAdd()
@@ -189,9 +223,23 @@ namespace FirmaMeble.Migrations
                     b.HasIndex("IdStatusu");
 
                     b.ToTable("Kontrahent");
+
+                    b.HasData(
+                        new
+                        {
+                            IdKontrahenta = 1,
+                            IdAdresu = 1,
+                            Nazwa = "Klient A"
+                        },
+                        new
+                        {
+                            IdKontrahenta = 2,
+                            IdAdresu = 2,
+                            Nazwa = "Dostawca X"
+                        });
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Magazyn", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Magazyn", b =>
                 {
                     b.Property<int>("IdMagazynu")
                         .ValueGeneratedOnAdd()
@@ -217,7 +265,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("Magazyns");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.PozycjaFaktury", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.PozycjaFaktury", b =>
                 {
                     b.Property<int>("IdPozycjiFaktury")
                         .ValueGeneratedOnAdd()
@@ -249,7 +297,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("PozycjaFaktury");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Pracownik", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Pracownik", b =>
                 {
                     b.Property<int>("IdPracownika")
                         .ValueGeneratedOnAdd()
@@ -285,7 +333,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("Pracowniks");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.ProdukcjaMebla", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.ProdukcjaMebla", b =>
                 {
                     b.Property<int>("IdProdukcji")
                         .ValueGeneratedOnAdd()
@@ -322,7 +370,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("ProdukcjaMeblas");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Rodzaj", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Rodzaj", b =>
                 {
                     b.Property<int>("IdRodzaju")
                         .ValueGeneratedOnAdd()
@@ -339,7 +387,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("Rodzaj");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.SposobPlatnosci", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.SposobPlatnosci", b =>
                 {
                     b.Property<int>("IdSposobuPlatnosci")
                         .ValueGeneratedOnAdd()
@@ -356,7 +404,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("SposobPlatnosci");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Status", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Status", b =>
                 {
                     b.Property<int>("IdStatusu")
                         .ValueGeneratedOnAdd()
@@ -373,7 +421,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("Status");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.SzczegolyZamowienia", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.SzczegolyZamowienia", b =>
                 {
                     b.Property<int>("IdSzczegolyZamowienia")
                         .ValueGeneratedOnAdd()
@@ -402,7 +450,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("SzczegolyZamowienias");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Towar", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Towar", b =>
                 {
                     b.Property<int>("IdTowaru")
                         .ValueGeneratedOnAdd()
@@ -435,7 +483,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("Towar");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.ZakupMaterialow", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.ZakupMaterialow", b =>
                 {
                     b.Property<int>("IdZakupu")
                         .ValueGeneratedOnAdd()
@@ -464,7 +512,7 @@ namespace FirmaMeble.Migrations
                     b.ToTable("ZakupMaterialows");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Zamowienie", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Zamowienie", b =>
                 {
                     b.Property<int>("IdZamowienia")
                         .ValueGeneratedOnAdd()
@@ -496,9 +544,9 @@ namespace FirmaMeble.Migrations
                     b.ToTable("Zamowienies");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Dostawca", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Dostawca", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Adres", "Adres")
+                    b.HasOne("FirmaMeble.Data.Models.Adres", "Adres")
                         .WithMany()
                         .HasForeignKey("IdAdresu")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -507,13 +555,13 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Adres");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Faktura", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Faktura", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Kontrahent", "IdKontrahentaNavigation")
+                    b.HasOne("FirmaMeble.Data.Models.Kontrahent", "IdKontrahentaNavigation")
                         .WithMany("Fakturas")
                         .HasForeignKey("IdKontrahenta");
 
-                    b.HasOne("FirmaMeble.Data.Repositories.SposobPlatnosci", "IdSposobuPlatnosciNavigation")
+                    b.HasOne("FirmaMeble.Data.Models.SposobPlatnosci", "IdSposobuPlatnosciNavigation")
                         .WithMany("Fakturas")
                         .HasForeignKey("IdSposobuPlatnosci");
 
@@ -522,17 +570,17 @@ namespace FirmaMeble.Migrations
                     b.Navigation("IdSposobuPlatnosciNavigation");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Kontrahent", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Kontrahent", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Adres", "IdAdresuNavigation")
+                    b.HasOne("FirmaMeble.Data.Models.Adres", "IdAdresuNavigation")
                         .WithMany("Kontrahents")
                         .HasForeignKey("IdAdresu");
 
-                    b.HasOne("FirmaMeble.Data.Repositories.Rodzaj", "IdRodzajuNavigation")
+                    b.HasOne("FirmaMeble.Data.Models.Rodzaj", "IdRodzajuNavigation")
                         .WithMany("Kontrahents")
                         .HasForeignKey("IdRodzaju");
 
-                    b.HasOne("FirmaMeble.Data.Repositories.Status", "IdStatusuNavigation")
+                    b.HasOne("FirmaMeble.Data.Models.Status", "IdStatusuNavigation")
                         .WithMany("Kontrahents")
                         .HasForeignKey("IdStatusu");
 
@@ -543,9 +591,9 @@ namespace FirmaMeble.Migrations
                     b.Navigation("IdStatusuNavigation");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Magazyn", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Magazyn", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Adres", "Adres")
+                    b.HasOne("FirmaMeble.Data.Models.Adres", "Adres")
                         .WithMany()
                         .HasForeignKey("IdAdresu")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -554,13 +602,13 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Adres");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.PozycjaFaktury", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.PozycjaFaktury", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Faktura", "IdFakturyNavigation")
+                    b.HasOne("FirmaMeble.Data.Models.Faktura", "IdFakturyNavigation")
                         .WithMany("PozycjaFakturies")
                         .HasForeignKey("IdFaktury");
 
-                    b.HasOne("FirmaMeble.Data.Repositories.Towar", "IdTowaruNavigation")
+                    b.HasOne("FirmaMeble.Data.Models.Towar", "IdTowaruNavigation")
                         .WithMany("PozycjaFakturies")
                         .HasForeignKey("IdTowaru");
 
@@ -569,9 +617,9 @@ namespace FirmaMeble.Migrations
                     b.Navigation("IdTowaruNavigation");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Pracownik", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Pracownik", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Adres", "Adres")
+                    b.HasOne("FirmaMeble.Data.Models.Adres", "Adres")
                         .WithMany()
                         .HasForeignKey("IdAdresu")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -580,15 +628,15 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Adres");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.ProdukcjaMebla", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.ProdukcjaMebla", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Pracownik", "Pracownik")
+                    b.HasOne("FirmaMeble.Data.Models.Pracownik", "Pracownik")
                         .WithMany()
                         .HasForeignKey("IdPracownika")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FirmaMeble.Data.Repositories.Towar", "Towar")
+                    b.HasOne("FirmaMeble.Data.Models.Towar", "Towar")
                         .WithMany()
                         .HasForeignKey("IdTowaru")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -599,15 +647,15 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Towar");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.SzczegolyZamowienia", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.SzczegolyZamowienia", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Towar", "Towar")
+                    b.HasOne("FirmaMeble.Data.Models.Towar", "Towar")
                         .WithMany()
                         .HasForeignKey("IdTowaru")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FirmaMeble.Data.Repositories.Zamowienie", "Zamowienie")
+                    b.HasOne("FirmaMeble.Data.Models.Zamowienie", "Zamowienie")
                         .WithMany()
                         .HasForeignKey("IdZamowienia")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -618,9 +666,9 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Zamowienie");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.ZakupMaterialow", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.ZakupMaterialow", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Dostawca", "Dostawca")
+                    b.HasOne("FirmaMeble.Data.Models.Dostawca", "Dostawca")
                         .WithMany()
                         .HasForeignKey("IdDostawcy")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -629,9 +677,9 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Dostawca");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Zamowienie", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Zamowienie", b =>
                 {
-                    b.HasOne("FirmaMeble.Data.Repositories.Kontrahent", "Klient")
+                    b.HasOne("FirmaMeble.Data.Models.Kontrahent", "Klient")
                         .WithMany()
                         .HasForeignKey("KlientIdKontrahenta")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -640,37 +688,37 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Klient");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Adres", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Adres", b =>
                 {
                     b.Navigation("Kontrahents");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Faktura", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Faktura", b =>
                 {
                     b.Navigation("PozycjaFakturies");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Kontrahent", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Kontrahent", b =>
                 {
                     b.Navigation("Fakturas");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Rodzaj", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Rodzaj", b =>
                 {
                     b.Navigation("Kontrahents");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.SposobPlatnosci", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.SposobPlatnosci", b =>
                 {
                     b.Navigation("Fakturas");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Status", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Status", b =>
                 {
                     b.Navigation("Kontrahents");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Repositories.Towar", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Towar", b =>
                 {
                     b.Navigation("PozycjaFakturies");
                 });

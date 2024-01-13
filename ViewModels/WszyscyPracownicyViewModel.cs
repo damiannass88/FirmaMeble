@@ -4,7 +4,7 @@
     {
         public WszyscyPracownicyViewModel()
         {
-            base.DisplayName = "Pracownicy";
+            base.TabHeaderName = "Pracownicy";
         }
     }
 }

@@ -1,0 +1,188 @@
+﻿<Window x:Name="ViewMainWindow"
+        x:Class="FirmaMeble.Views.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Title="FirmaMeble"
+        Height="1350" Width="1500"
+        MouseDown="Window_DragMove"
+        Icon="..\Resources\Icons\home-6-512.ico">
+    <Window.Background>
+        <SolidColorBrush Color="Transparent" />
+
+    </Window.Background>
+    <Window.Resources>
+        <ResourceDictionary Source="/Views/View_Resources/MainWindowResources.xaml" />
+    </Window.Resources>
+
+    <Border Opacity="1"
+            BorderBrush="White"
+            BorderThickness="5"
+            CornerRadius="10">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="1,0" EndPoint="0,1"
+                                 MappingMode="RelativeToBoundingBox">
+                <GradientStop Color="#E5A1A1A1" Offset="0" />
+                <GradientStop Color="#E5F2F2F2" Offset="1" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" MinHeight="1000" />
+                <RowDefinition Height="35" />
+            </Grid.RowDefinitions>
+
+            <Grid Background="OrangeRed"
+                  Margin="5,5,5,0"
+                  Cursor="Hand">
+                <WrapPanel Orientation="Horizontal"
+                           HorizontalAlignment="Right">
+                    <Button x:Name="MinimizeBtn"
+                            Content="__"
+                            Width="26"
+                            Height="23"
+                            FontSize="33"
+                            Padding="0,-25,0,0"
+                            Margin="1"
+                            Background="#4CFFFFFF"
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Panel.ZIndex="1"
+                            BorderBrush="White"
+                            BorderThickness="2"
+                            VerticalAlignment="Top"
+                            ToolTip="Minimize FirmaMeble"
+                            Click="MinimizeAppButton"
+                            Cursor="Hand" />
+                    <Button x:Name="CloseBtn"
+                            Content="X"
+                            Width="28"
+                            Height="23"
+                            FontSize="21"
+                            Padding="0,-6,0,0"
+                            Margin="1"
+                            Background="#4CFFFFFF"
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Panel.ZIndex="1"
+                            BorderBrush="White"
+                            BorderThickness="2"
+                            VerticalAlignment="Top"
+                            ToolTip="Close FirmaMeble"
+                            Click="CloseAppButton"
+                            Cursor="Hand" />
+                </WrapPanel>
+            </Grid>
+
+            <Menu Grid.Row="1" Grid.Column="0" Margin="5,3">
+                <MenuItem Header="_Plik" />
+                <MenuItem Header="_Magazyn">
+                    <MenuItem Header="Towary">
+                        <MenuItem Header="Pokaż Wszystkie" Command="{Binding ShowAllTowaryCommand}" />
+                        <MenuItem Header="Dodawanie" Command="{Binding CreateTowarCommand}" />
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Pracownicy">
+                    <MenuItem Header="Pracownicy">
+                        <MenuItem Header="Pokaż Wszystkich" Command="{Binding ShowAllPracownicyCommand}" />
+                        <MenuItem Header="Dodawanie" Command="{Binding CreatePracownikCommand}" />
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Księgowość">
+                    <MenuItem Header="Faktury">
+                        <MenuItem Header="Pokaż Wszystkie" Command="{Binding ShowAllFakturyCommand}" />
+                        <MenuItem Header="Dodawanie" Command="{Binding CreateFakturaCommand}" />
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Program" />
+            </Menu>
+
+            <ToolBar Grid.Row="2" Grid.Column="0" Margin="3,1">
+                <Button Width="32" Height="32" Background="LightBlue" Margin="2" Command="{Binding CreateTowarCommand}"
+                        Cursor="Hand">
+                    <Image Source="..\Resources\Icons\package-plus.png" />
+                </Button>
+                <Button Width="32" Height="32" Background="LightBlue" Margin="2"
+                        Command="{Binding ShowAllTowaryCommand}" Cursor="Hand">
+                    <Image Source="..\Resources\Icons\package.png" />
+                </Button>
+                <Separator />
+                <Button Width="32" Height="32" Background="LightBlue" Margin="2"
+                        Command="{Binding CreatePracownikCommand}" Cursor="Hand">
+                    <Image Source="..\Resources\Icons\employee_plus.png" />
+                </Button>
+                <Button Width="32" Height="32" Background="LightBlue" Margin="2"
+                        Command="{Binding ShowAllPracownicyCommand}" Cursor="Hand">
+                    <Image Source="..\Resources\Icons\employee.png" />
+                </Button>
+                <Separator />
+                <Button Width="32" Height="32" Background="LightBlue" Margin="2"
+                        Command="{Binding CreateFakturaCommand}" Cursor="Hand">
+                    <Image Source="..\Resources\Icons\contract-plus.png" />
+                </Button>
+                <Button Width="32" Height="32" Background="LightBlue" Margin="2"
+                        Command="{Binding ShowAllFakturyCommand}" Cursor="Hand">
+                    <Image Source="..\Resources\Icons\contract.png" />
+                </Button>
+                <Separator />
+            </ToolBar>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0">
+                    <HeaderedContentControl
+                        Header="Operacje"
+                        Content="{Binding GetAvailableCommands}"
+                        ContentTemplate="{StaticResource CommandsTemplate}"
+                        Style="{StaticResource MainHCCStyle}" />
+
+                </Border>
+                <Border Grid.Column="1">
+                    <HeaderedContentControl
+                        Header="Przestrzeń robocza"
+                        Content="{Binding WorkspacesTabViewsCollection, UpdateSourceTrigger=PropertyChanged}"
+                        ContentTemplate="{StaticResource WorkspacesTemplate}"
+                        Style="{StaticResource MainHCCStyle}" />
+
+                </Border>
+            </Grid>
+
+            <StatusBar Grid.Row="4"
+                       FlowDirection="LeftToRight"
+                       Margin="5">
+                <StatusBarItem>
+                    <Image Source="..\Resources\Icons\wsb-white.png" />
+                </StatusBarItem>
+                <StatusBarItem>
+                    <TextBlock>WSB-NLU</TextBlock>
+                </StatusBarItem>
+                <Separator />
+                <StatusBarItem HorizontalAlignment="Left">
+                    <TextBlock x:Name="Author"
+                               Text="Damian Nass"
+                               Foreground="Black"
+                               FontSize="12"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom"
+                               Cursor="Hand"
+                               ToolTip="Damian Nass" />
+                </StatusBarItem>
+            </StatusBar>
+
+        </Grid>
+    </Border>
+</Window>

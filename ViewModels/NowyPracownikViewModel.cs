@@ -4,7 +4,7 @@
     {
         public NowyPracownikViewModel()
         {
-            base.DisplayName = "Pracownik";//to jest ustawienie nazwy zkładki
+            base.TabHeaderName = "Pracownik";//to jest ustawienie nazwy zkładki
         }
     }
 }
