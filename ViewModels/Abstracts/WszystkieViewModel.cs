@@ -9,7 +9,7 @@
     {
         protected readonly DataBaseEntities DbEntities;
 
-        private ObservableCollection<T> list;
+        private ObservableCollection<T> list = new();
         private RelayCommand loadCommand;
 
         protected WszystkieViewModel(string tabHeaderName)

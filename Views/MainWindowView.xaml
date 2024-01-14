@@ -10,7 +10,7 @@
         AllowsTransparency="True"
         WindowStyle="None"
         Title="FirmaMeble"
-        Height="1350" Width="1500"
+        Height="1000" Width="1500"
         MouseDown="Window_DragMove"
         Icon="..\Resources\Icons\home-6-512.ico">
     <Window.Background>
@@ -18,20 +18,23 @@
 
     </Window.Background>
     <Window.Resources>
-        <ResourceDictionary Source="/Views/View_Resources/MainWindowResources.xaml" />
+        <ResourceDictionary Source="View_Resources/MainWindowResources.xaml" />
     </Window.Resources>
 
     <Border Opacity="1"
-            BorderBrush="White"
+            BorderBrush="OrangeRed"
             BorderThickness="5"
             CornerRadius="10">
         <Border.Background>
-            <LinearGradientBrush StartPoint="1,0" EndPoint="0,1"
+            <LinearGradientBrush StartPoint="1,1" EndPoint="0,1"
                                  MappingMode="RelativeToBoundingBox">
-                <GradientStop Color="#E5A1A1A1" Offset="0" />
-                <GradientStop Color="#E5F2F2F2" Offset="1" />
+                <GradientStop Color="#E5A1A1A1" Offset="1" />
+                <GradientStop Color="Transparent" Offset="0" />
             </LinearGradientBrush>
         </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect Direction="315" Color="DimGray" ShadowDepth="6" />
+        </Border.Effect>
 
 
         <Grid>
@@ -39,15 +42,17 @@
                 <RowDefinition Height="30" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="40" />
-                <RowDefinition Height="*" MinHeight="1000" />
+                <RowDefinition Height="*" MinHeight="800" />
                 <RowDefinition Height="35" />
             </Grid.RowDefinitions>
 
             <Grid Background="OrangeRed"
-                  Margin="5,5,5,0"
+                  Margin="0,0,0,0"
                   Cursor="Hand">
                 <WrapPanel Orientation="Horizontal"
-                           HorizontalAlignment="Right">
+                           HorizontalAlignment="Right"
+                           Margin="0,0,4,0">
+                    <Label Content="FirmaMeble" FontSize="14" HorizontalAlignment="Center" Width="800" />
                     <Button x:Name="MinimizeBtn"
                             Content="__"
                             Width="26"
@@ -85,30 +90,34 @@
                 </WrapPanel>
             </Grid>
 
-            <Menu Grid.Row="1" Grid.Column="0" Margin="5,3">
-                <MenuItem Header="_Plik" />
-                <MenuItem Header="_Magazyn">
-                    <MenuItem Header="Towary">
-                        <MenuItem Header="Pokaż Wszystkie" Command="{Binding ShowAllTowaryCommand}" />
-                        <MenuItem Header="Dodawanie" Command="{Binding CreateTowarCommand}" />
+            <Menu Background="DeepPink" Foreground="AliceBlue" Grid.Row="1" Grid.Column="0" Margin="5,3">
+                <MenuItem Header="_Plik" Background="DeepPink" />
+                <MenuItem Header="_Magazyn" Background="DeepPink">
+                    <MenuItem Header="Towary" Background="DeepPink">
+                        <MenuItem Background="DeepPink" Header="Pokaż Wszystkie"
+                                  Command="{Binding ShowAllTowaryCommand}" />
+                        <MenuItem Background="DeepPink" Header="Dodawanie" Command="{Binding CreateTowarCommand}" />
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Pracownicy">
-                    <MenuItem Header="Pracownicy">
-                        <MenuItem Header="Pokaż Wszystkich" Command="{Binding ShowAllPracownicyCommand}" />
-                        <MenuItem Header="Dodawanie" Command="{Binding CreatePracownikCommand}" />
+                <MenuItem Background="DeepPink" Header="_Pracownicy">
+                    <MenuItem Background="DeepPink" Header="Pracownicy">
+                        <MenuItem Background="DeepPink" Header="Pokaż Wszystkich"
+                                  Command="{Binding ShowAllPracownicyCommand}" />
+                        <MenuItem Background="DeepPink" Header="Dodawanie" Command="{Binding CreatePracownikCommand}" />
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Księgowość">
-                    <MenuItem Header="Faktury">
-                        <MenuItem Header="Pokaż Wszystkie" Command="{Binding ShowAllFakturyCommand}" />
-                        <MenuItem Header="Dodawanie" Command="{Binding CreateFakturaCommand}" />
+                <MenuItem Background="DeepPink" Header="_Księgowość">
+                    <MenuItem Background="DeepPink" Header="Faktury">
+                        <MenuItem Background="DeepPink" Header="Pokaż Wszystkie"
+                                  Command="{Binding ShowAllFakturyCommand}" />
+                        <MenuItem Background="DeepPink" Header="Dodawanie" Command="{Binding CreateFakturaCommand}" />
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Program" />
             </Menu>
 
-            <ToolBar Grid.Row="2" Grid.Column="0" Margin="3,1">
+            <ToolBar Grid.Row="2" Grid.Column="0" Margin="3,1"
+                     Background="HotPink">
                 <Button Width="32" Height="32" Background="LightBlue" Margin="2" Command="{Binding CreateTowarCommand}"
                         Cursor="Hand">
                     <Image Source="..\Resources\Icons\package-plus.png" />
@@ -143,29 +152,48 @@
                     <ColumnDefinition Width="150" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0">
+                <Border Grid.Column="0" Background="LightPink" Margin="6,4">
                     <HeaderedContentControl
-                        Header="Operacje"
                         Content="{Binding GetAvailableCommands}"
                         ContentTemplate="{StaticResource CommandsTemplate}"
                         Style="{StaticResource MainHCCStyle}" />
 
                 </Border>
-                <Border Grid.Column="1">
-                    <HeaderedContentControl
-                        Header="Przestrzeń robocza"
-                        Content="{Binding WorkspacesTabViewsCollection, UpdateSourceTrigger=PropertyChanged}"
-                        ContentTemplate="{StaticResource WorkspacesTemplate}"
-                        Style="{StaticResource MainHCCStyle}" />
+                <Border Grid.Column="1" BorderThickness="5" BorderBrush="DeepPink" Margin="4" CornerRadius="3">
+                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="850">
+                            <StackPanel>
+                                <Label Margin="10,28, 1030, 15" FontSize="20" FontWeight="Bold" BorderBrush="DeepPink"
+                                       BorderThickness="8" Background="DeepPink">
+                                    ⇱ Otwórz dowolny Tab
+                                </Label>
+                                <Image Source="..\Resources\Icons\wsb-white_Big.png" Margin="0,180,0,0" Height="600">
+                                    <Image.Effect>
+                                        <DropShadowEffect Direction="0" BlurRadius="15" Color="DimGray"
+                                                          ShadowDepth="10" />
+                                    </Image.Effect>
+                                </Image>
+                            </StackPanel>
+                            <HeaderedContentControl Padding="10" Background="Black" BorderThickness="10"
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                    Content="{Binding WorkspacesTabViewsCollection, UpdateSourceTrigger=PropertyChanged}"
+                                                    ContentTemplate="{StaticResource WorkspacesTemplate}" />
 
+                        </Grid>
+                    </StackPanel>
                 </Border>
             </Grid>
 
             <StatusBar Grid.Row="4"
                        FlowDirection="LeftToRight"
-                       Margin="5">
+                       Margin="5"
+                       Background="White">
                 <StatusBarItem>
-                    <Image Source="..\Resources\Icons\wsb-white.png" />
+                    <Image Source="..\Resources\Icons\wsb-white.png">
+                        <Image.Effect>
+                            <DropShadowEffect Direction="315" BlurRadius="15" Color="Black" ShadowDepth="4" />
+                        </Image.Effect>
+                    </Image>
                 </StatusBarItem>
                 <StatusBarItem>
                     <TextBlock>WSB-NLU</TextBlock>

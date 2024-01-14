@@ -7,9 +7,9 @@
              d:DesignHeight="600"
              d:DesignWidth="800">
     <UserControl.Resources>
-        <ResourceDictionary Source="/Views/View_Resources/StyleZakladekDictionary.xaml" />
+        <ResourceDictionary Source="View_Resources/StyleZakladekDictionary.xaml" />
     </UserControl.Resources>
-    <ScrollViewer>
+    <ScrollViewer Height="810">
         <Grid Background="white">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
