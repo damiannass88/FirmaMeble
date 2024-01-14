@@ -1,18 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FirmaMeble.Data.Models
+﻿namespace FirmaMeble.Data.Models
 {
-    [Table("Status")]
-    public partial class Status
-    {
-        [Key]
-        public int IdStatusu { get; set; }
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
-        [StringLength(50)]
-        public string? Nazwa { get; set; }
+    [Table("Status")]
+    public class Status
+    {
+        [Key] public int IdStatusu { get; set; }
+
+        [StringLength(50)] public string? Nazwa { get; set; }
 
         [InverseProperty("IdStatusuNavigation")]
-        public virtual ICollection<Kontrahent> Kontrahents { get; set; } = new List<Kontrahent>();
+        public virtual ICollection<Kontrahent> KontrahentDbSet { get; set; } = new List<Kontrahent>();
     }
 }

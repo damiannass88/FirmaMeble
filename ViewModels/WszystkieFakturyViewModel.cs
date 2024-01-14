@@ -13,7 +13,7 @@
 
         public override void Load()
         {
-            var fakturas = DbEntities.Fakturas;
+            var fakturas = DbEntities.FakturaDbSet;
             var fakturaForViews = fakturas.Select(faktura => CreateFakturaForView(faktura));
             List = new ObservableCollection<FakturaForView>(fakturaForViews);
         }

@@ -6,7 +6,7 @@
 
     public class JedenViewModel<T> : WorkspaceViewModel
     {
-        protected DataBaseEntities FakturyEntities;
+        protected DataBaseEntities DbEntities;
 
         protected T Item;
         private RelayCommand saveAndCloseCommand;
@@ -14,7 +14,7 @@
         public JedenViewModel(string tabHeaderName)
         {
             TabHeaderName = tabHeaderName;
-            FakturyEntities = new DataBaseEntities();
+            DbEntities = new DataBaseEntities();
         }
 
         public ICommand SaveAndCloseCommand
@@ -33,8 +33,8 @@
                 return;
             }
 
-            FakturyEntities.Add(Item);
-            FakturyEntities.SaveChanges();
+            DbEntities.Add(Item);
+            DbEntities.SaveChanges();
         }
 
         private void SaveAndClose()

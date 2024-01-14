@@ -1,5 +1,10 @@
-﻿namespace FirmaMeble.ViewModels
+﻿using FirmaMeble.Data.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace FirmaMeble.ViewModels
 {
+    using Abstracts;
     using Data.Models;
 
     public class NowaFakturaViewModel : JedenViewModel<Faktura>
@@ -80,9 +85,15 @@
             }
         }
 
+        public IQueryable<Kontrahent> KontrahenciComboBoxItems =>
+        (
+            from kontrahent in DbEntities.KontrahentDbSet
+            select kontrahent
+        ).ToList().AsQueryable();
+
         public IQueryable<SposobPlatnosci> SposobPlatnosciComboBoxItems =>
         (
-            from sposobPlatnosci in FakturyEntities.SposobPlatnoscis
+            from sposobPlatnosci in DbEntities.SposobPlatnosciDbSet
             select sposobPlatnosci
         ).ToList().AsQueryable();
     }

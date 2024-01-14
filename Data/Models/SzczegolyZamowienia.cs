@@ -1,26 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FirmaMeble.Data.Models
+﻿namespace FirmaMeble.Data.Models
 {
-    public partial class SzczegolyZamowienia
-    {
-        [Key]
-        public int IdSzczegolyZamowienia { get; set; }
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
-        [ForeignKey("Zamowienie")]
-        public int IdZamowienia { get; set; }
+    [Table("SzczegolyZamowienia")]
+    public class SzczegolyZamowienia
+    {
+        [Key] public int IdSzczegolyZamowienia { get; set; }
+
+        [ForeignKey("Zamowienie")] public int IdZamowienia { get; set; }
 
         public virtual Zamowienie Zamowienie { get; set; }
 
-        [ForeignKey("Towar")]
-        public int IdTowaru { get; set; }
+        [ForeignKey("Towar")] public int IdTowaru { get; set; }
 
         public virtual Towar Towar { get; set; }
 
         public int Ilość { get; set; }
 
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal CenaZaSztuke { get; set; }
+        [Column(TypeName = "decimal(18, 2)")] public decimal CenaZaSztuke { get; set; }
     }
 }

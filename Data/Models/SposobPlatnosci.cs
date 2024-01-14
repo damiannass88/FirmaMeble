@@ -1,18 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FirmaMeble.Data.Models
+﻿namespace FirmaMeble.Data.Models
 {
-    [Table("SposobPlatnosci")]
-    public partial class SposobPlatnosci
-    {
-        [Key]
-        public int IdSposobuPlatnosci { get; set; }
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
-        [StringLength(50)]
-        public string? Nazwa { get; set; }
+    [Table("SposobPlatnosci")]
+    public class SposobPlatnosci
+    {
+        [Key] public int IdSposobuPlatnosci { get; set; }
+
+        [StringLength(50)] public string? Nazwa { get; set; }
 
         [InverseProperty("IdSposobuPlatnosciNavigation")]
-        public virtual ICollection<Faktura> Fakturas { get; set; } = new List<Faktura>();
+        public virtual ICollection<Faktura> FakturaDbSet { get; set; } = new List<Faktura>();
     }
 }

@@ -1,22 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FirmaMeble.Data.Models
+﻿namespace FirmaMeble.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     [Table("Kontrahent")]
-    public partial class Kontrahent
+    public class Kontrahent
     {
-        [Key]
-        public int IdKontrahenta { get; set; }
+        [Key] public int IdKontrahenta { get; set; }
 
-        [StringLength(10)]
-        public string? Kod { get; set; }
+        [StringLength(10)] public string? Kod { get; set; }
 
-        [StringLength(50)]
-        public string? Nazwa { get; set; }
+        [StringLength(50)] public string? Nazwa { get; set; }
 
-        [StringLength(50)]
-        public string? Nip { get; set; }
+        [StringLength(50)] public string? Nip { get; set; }
 
         public int? IdRodzaju { get; set; }
 
@@ -25,18 +21,18 @@ namespace FirmaMeble.Data.Models
         public int? IdAdresu { get; set; }
 
         [InverseProperty("IdKontrahentaNavigation")]
-        public virtual ICollection<Faktura> Fakturas { get; set; } = new List<Faktura>();
+        public virtual ICollection<Faktura> FakturaDbSet { get; set; } = new List<Faktura>();
 
         [ForeignKey("IdAdresu")]
-        [InverseProperty("Kontrahents")]
+        [InverseProperty("KontrahentDbSet")]
         public virtual Adres? IdAdresuNavigation { get; set; }
 
         [ForeignKey("IdRodzaju")]
-        [InverseProperty("Kontrahents")]
+        [InverseProperty("KontrahentDbSet")]
         public virtual Rodzaj? IdRodzajuNavigation { get; set; }
 
         [ForeignKey("IdStatusu")]
-        [InverseProperty("Kontrahents")]
+        [InverseProperty("KontrahentDbSet")]
         public virtual Status? IdStatusuNavigation { get; set; }
     }
 }

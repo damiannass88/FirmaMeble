@@ -13,7 +13,7 @@
                 <DataGridTextColumn Header="Data wystawienia" Binding="{Binding DataWystawienia}"/>
                 <DataGridTextColumn Header="Nazwa Kontrhenta" Binding="{Binding KontrahentNazwa}"/>
                 <DataGridTextColumn Header="NIP" Binding="{Binding KontrahentNIP}"/>
-                <DataGridTextColumn Header="Adres" Binding="{Binding KontrahentAdres}"/>
+                <DataGridTextColumn Header="AdresDbSet" Binding="{Binding KontrahentAdres}"/>
                 <DataGridTextColumn Header="Termin Platnosci" Binding="{Binding TerminPlatnosci}"/>
                 <DataGridTextColumn Header="Sposob platnosci" Binding="{Binding SposobPlatnosciNazwa}"/>
             </DataGrid.Columns>

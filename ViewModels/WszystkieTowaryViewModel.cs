@@ -18,7 +18,7 @@ namespace FirmaMeble.ViewModels
                 (
                     //z bazy danych pobieram wszystkie towary
                     //tu bedzie zapytanie Linq, ....
-                    DbEntities.Towars
+                    DbEntities.TowarDbSet
                 );
         }
     }

@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FirmaMeble.Data.Models
+﻿namespace FirmaMeble.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class FakturaForView
     {
-        [Key]
-        public int IdFaktury { get; set; }
+        [Key] public int IdFaktury { get; set; }
 
         public string? Numer { get; set; }
 
