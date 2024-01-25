@@ -12,13 +12,17 @@
 
         [StringLength(50)] public string? Ulica { get; set; }
 
-        [StringLength(50)] public string? NrDomu { get; set; }
+        [StringLength(50)] public int? NrDomu { get; set; }
 
         [StringLength(50)] public string? NrLokalu { get; set; }
 
         [StringLength(50)] public string? KodPocztowy { get; set; }
 
-        [InverseProperty("IdAdresuNavigation")]
-        public virtual ICollection<Kontrahent> KontrahentDbSet { get; set; } = new List<Kontrahent>();
+        //// Właściwość nawigacyjna do Pracownika
+        //public virtual Pracownik Pracownik { get; set; }
+        
+        //// Właściwość nawigacyjna do Kontrahenta
+        //public virtual Kontrahent Kontrahent { get; set; }
+
     }
 }

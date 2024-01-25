@@ -8,19 +8,20 @@
     {
         [Key] public int IdUmowy { get; set; }
 
-        [StringLength(100)] public string TypUmowy { get; set; }
+        public int StanowiskoId { get; set; }
 
         [Column(TypeName = "date")] public DateTime DataRozpoczecia { get; set; }
 
         [Column(TypeName = "date")] public DateTime? DataZakonczenia { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal KwotaBrutto { get; set; }
 
-        // Klucz obcy odnoszący się do Pracownika
-        [ForeignKey("Pracownik")]
-        public int IdPracownika { get; set; }
+        public bool CzyAktywna { get; set; }
+
+        public string? Opis { get; set; }
 
         // Właściwość nawigacyjna dla Pracownika
-        public virtual Pracownik Pracownik { get; set; }
+        [InverseProperty("Umowa")] public virtual Pracownik Pracownik { get; set; }
     }
 }

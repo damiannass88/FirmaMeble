@@ -1,29 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:vm="clr-namespace:FirmaMeble.ViewModels"
-                    xmlns:views="clr-namespace:FirmaMeble.Views">
-
-    <!--tu bedziemy laczyc View z ViewModel zakładek-->
-    <DataTemplate DataType="{x:Type vm:NowyTowarViewModel}">
-        <views:NowyTowarView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:WszystkieTowaryViewModel}">
-        <views:WszystkieTowaryView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:NowyPracownikViewModel}">
-        <views:NowyPracownikView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:WszyscyPracownicyViewModel}">
-        <views:WszyscyPracownicyView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:WszystkieFakturyViewModel}">
-        <views:WszystkieFakturyView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:NowaFakturaViewModel}">
-        <views:NowaFakturaView />
-    </DataTemplate>
-
-    <!--tu jest koniec laczenia View z ViewModel zakładek-->
+                    xmlns:views="clr-namespace:FirmaMeble.Views"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
 
     <Style x:Key="MainHCCStyle" TargetType="{x:Type HeaderedContentControl}">
         <Setter Property="HeaderTemplate">
@@ -52,6 +32,68 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <DataTemplate x:Key="ControlMenuForJeden">
+        <Grid>
+            <Grid.Resources>
+                <ResourceDictionary Source="/Views/View_Resources/StyleZakladekDictionary.xaml" />
+            </Grid.Resources>
+            <ToolBar Style="{StaticResource ToolBarStandardowy}">
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding SaveAndClearFormCommand}">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           ToolTip="Zapisz i Wyczyść formularz"
+                           Source="/Resources/Icons/contract-plus.png" />
+                </Button>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding SaveAndCloseCommand}">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           ToolTip="Zapisz i Zamknij kartę"
+                           Source="/Resources/Icons/save.png" />
+                </Button>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding ClearEntireFormCommand}"
+                        ToolTip="Wyczyść formularz">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           Source="/Resources/Icons/summarize.png" />
+                </Button>
+                <Separator />
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding CloseCommand}"
+                        ToolTip="Zamknij kartę">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           Source="/Resources/Icons/cancel.png" />
+                </Button>
+            </ToolBar>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ControlMenuForWszystkie">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <ResourceDictionary Source="/Views/View_Resources/StyleZakladekDictionary.xaml" />
+            </Grid.Resources>
+            <ToolBar Style="{StaticResource ToolBarStandardowy}">
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding RefreshCommand}"
+                        ToolTip="Odśwież dane">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           Source="/Resources/Icons/refresh.png" />
+                </Button>
+                <Separator />
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding CloseCommand}"
+                        ToolTip="Zamknij kartę">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           Source="/Resources/Icons/cancel.png" />
+                </Button>
+            </ToolBar>
+        </Grid>
+    </DataTemplate>
 
     <!--
   This style ensures that the borders in the main window are consistent.
@@ -118,53 +160,110 @@
 
     <!-- Styl dla DataGrid -->
     <Style TargetType="{x:Type DataGrid}" x:Key="DataGridDefaultStyle">
-        <Setter Property="Background" Value="Gray"/>
-        <Setter Property="RowBackground" Value="#ff668f"/>
-        <Setter Property="AlternatingRowBackground" Value="#ffe394"/> 
-        <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="LightPink"/>
-        <Setter Property="VerticalGridLinesBrush" Value="Gray"/>
-        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="Gray" />
+        <Setter Property="RowBackground" Value="#ff668f" />
+        <Setter Property="AlternatingRowBackground" Value="#ffe394" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="HorizontalGridLinesBrush" Value="LightPink" />
+        <Setter Property="VerticalGridLinesBrush" Value="Gray" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="ColumnHeaderStyle"
-                Value="{DynamicResource ColorfulDataGridColumnHeaderStyle}" /> 
+                Value="{DynamicResource ColorfulDataGridColumnHeaderStyle}" />
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect BlurRadius="10" Direction="-90" Opacity="1" ShadowDepth="4" Color="#FF1C1C1C"/>
+                <DropShadowEffect BlurRadius="10" Direction="-90" Opacity="1" ShadowDepth="4" Color="#FF1C1C1C" />
             </Setter.Value>
         </Setter>
     </Style>
 
     <!-- Styl dla DataGridTextColumn -->
     <Style TargetType="{x:Type DataGridTextColumn}" x:Key="DataGridTextColumnDefaultStyle">
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="12" />
 
     </Style>
 
     <Style x:Key="ColorfulDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="#f0e854"/>
-        <Setter Property="Foreground" Value="#363231"/>
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Height" Value="35"/>
-        <Setter Property="MinWidth" Value="80"/>
-        <Setter Property="Margin" Value="1"/>
-        <Setter Property="Padding" Value="5"/>
-        <Setter Property="SeparatorBrush" Value="#FF78909C"/>
-        <Setter Property="SeparatorVisibility" Value="Visible"/> 
+        <Setter Property="Background" Value="#f0e854" />
+        <Setter Property="Foreground" Value="#363231" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="35" />
+        <Setter Property="MinWidth" Value="80" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="SeparatorBrush" Value="#FF78909C" />
+        <Setter Property="SeparatorVisibility" Value="Visible" />
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect BlurRadius="10" Direction="-90" Opacity="1" ShadowDepth="4" Color="#FF1C1C1C"/>
+                <DropShadowEffect BlurRadius="10" Direction="-90" Opacity="1" ShadowDepth="4" Color="#FF1C1C1C" />
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--tu bedziemy laczyc View z ViewModel zakładek-->
+    <DataTemplate DataType="{x:Type vm:NowyTowarViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForJeden}" Content="{Binding}" />
+            <views:NowyTowarView />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:NowyPracownikViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForJeden}" Content="{Binding}" />
+            <views:NowyPracownikView />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:NowaFakturaViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForJeden}" Content="{Binding}" />
+            <views:NowaFakturaView />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:WszystkieTowaryViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <views:WszystkieTowaryView />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:WszyscyPracownicyViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <views:WszyscyPracownicyView />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:WszystkieFakturyViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <views:WszystkieFakturyView />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:PracownicyUmowyViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <views:UmowyPracownikow />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:WszyscyKontrahenciViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <views:WszyscyKontrahenciView />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:NowyKontrahentViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForJeden}" Content="{Binding}" />
+            <views:NowyKontrahentView />
+        </StackPanel>
+    </DataTemplate>
 
 </ResourceDictionary>

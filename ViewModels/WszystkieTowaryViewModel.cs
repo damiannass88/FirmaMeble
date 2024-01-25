@@ -1,25 +1,20 @@
-﻿using FirmaMeble.Data.Models;
-
-namespace FirmaMeble.ViewModels
+﻿namespace FirmaMeble.ViewModels
 {
-    using System.Collections.ObjectModel;
-    using FirmaMeble.ViewModels.Abstracts;
+    using Base;
+    using Data.Models;
 
     public class WszystkieTowaryViewModel : WszystkieViewModel<Towar>
     {
         public WszystkieTowaryViewModel()
-            : base("Towary")
+            : base("All Towary")
         {
         }
 
-        public override void Load()
+        public override IQueryable<Towar> GetQueryStatement()
         {
-            List = new ObservableCollection<Towar>
-                (
-                    //z bazy danych pobieram wszystkie towary
-                    //tu bedzie zapytanie Linq, ....
+            return from towar in
                     DbEntities.TowarDbSet
-                );
+                select towar;
         }
     }
 }

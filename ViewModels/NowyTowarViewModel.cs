@@ -1,22 +1,23 @@
-﻿using FirmaMeble.Data.Models;
-using FirmaMeble.ViewModels.Abstracts;
-
-namespace FirmaMeble.ViewModels
+﻿namespace FirmaMeble.ViewModels
 {
+    using System.Windows;
+    using System.Windows.Input;
+    using Base;
+    using Commands;
+    using Data.Models;
+
     public class NowyTowarViewModel : JedenViewModel<Towar>
     {
+
         public NowyTowarViewModel()
             : base("Towar")
         {
             Item = new Towar();
         }
 
-        public string Kod
+        public string? Kod
         {
-            get
-            {
-                return Item.Kod;
-            }
+            get => Item.Kod;
 
             set
             {
@@ -28,12 +29,14 @@ namespace FirmaMeble.ViewModels
             }
         }
 
-        public string Nazwa
+        public override void ClearForm()
         {
-            get
-            {
-                return Item.Nazwa;
-            }
+            MessageBox.Show("ClearForm!", "Formularz");
+        }
+
+        public string? Nazwa
+        {
+            get => Item.Nazwa;
 
             set
             {
@@ -47,10 +50,7 @@ namespace FirmaMeble.ViewModels
 
         public decimal? StawkaVatSprzedazy
         {
-            get
-            {
-                return Item.StawkaVatSprzedazy;
-            }
+            get => Item.StawkaVatSprzedazy;
 
             set
             {
@@ -64,10 +64,7 @@ namespace FirmaMeble.ViewModels
 
         public decimal? StawkaVatZakupu
         {
-            get
-            {
-                return Item.StawkaVatZakupu;
-            }
+            get => Item.StawkaVatZakupu;
 
             set
             {
@@ -81,10 +78,7 @@ namespace FirmaMeble.ViewModels
 
         public decimal? Cena
         {
-            get
-            {
-                return Item.Cena;
-            }
+            get => Item.Cena;
 
             set
             {
@@ -98,10 +92,7 @@ namespace FirmaMeble.ViewModels
 
         public decimal? Marza
         {
-            get
-            {
-                return Item.Marza;
-            }
+            get => Item.Marza;
 
             set
             {
@@ -112,5 +103,11 @@ namespace FirmaMeble.ViewModels
                 }
             }
         }
+
+        public override bool IsDateSetValid()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

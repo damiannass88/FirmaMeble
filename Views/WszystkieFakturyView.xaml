@@ -12,8 +12,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Height="810">
-        <DataGrid Style="{StaticResource DataGridDefaultStyle}" ItemsSource="{Binding List}" d:ItemsSource="{d:SampleData ItemCount=10}">
+    <Grid Height="770">
+        <DataGrid Style="{StaticResource DataGridDefaultStyle}" ItemsSource="{Binding List}" d:ItemsSource="{d:SampleData ItemCount=10}"
+                  CanUserAddRows="False" HorizontalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id Faktury" Binding="{Binding IdFaktury}" CellStyle="{DynamicResource DataGridTextColumnDefaultStyle}"/>
                 <DataGridTextColumn Header="Numer" Binding="{Binding Numer}" CellStyle="{DynamicResource DataGridTextColumnDefaultStyle}"/>

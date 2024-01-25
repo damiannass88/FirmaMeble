@@ -44,63 +44,11 @@
         <Setter Property="Padding"
                 Value="5,0,5,0" />
     </Style>
-    <Style x:Key="ButtonStandardowy"
-           TargetType="Button">
-        <Setter Property="Background"
-                Value="#E3E3E3" />
-        <Setter Property="BorderBrush"
-                Value="#AFAFAF" />
-        <Setter Property="Height"
-                Value="28" />
-        <Setter Property="Margin"
-                Value="4" />
-        <Setter Property="VerticalAlignment"
-                Value="Center" />
-        <Setter Property="VerticalContentAlignment"
-                Value="Center" />
-        <Setter Property="HorizontalContentAlignment"
-                Value="Center" />
-        <Setter Property="Padding"
-                Value="4,2,4,2" />
-    </Style>
-    <Style x:Key="TextBoxDuzy"
-           TargetType="{x:Type TextBox}">
-        <Setter Property="Height"
-                Value="100" />
-        <Setter Property="Margin"
-                Value="4" />
-    </Style>
-    <Style x:Key="DokumentLabel"
-           TargetType="{x:Type Label}">
-        <Setter Property="HorizontalContentAlignment"
-                Value="Center" />
-        <Setter Property="FontWeight"
-                Value="Bold" />
-        <Setter Property="Height"
-                Value="28" />
-        <Setter Property="Margin"
-                Value="4" />
-    </Style>
-    <Style x:Key="StackPanelStandardowy"
-           TargetType="{x:Type StackPanel}">
-        <Setter Property="Background"
-                Value="#EEEEEE" />
-        <Setter Property="Margin"
-                Value="2" />
-    </Style>
-    <Style x:Key="BorderStandardowy"
-           TargetType="{x:Type Border}">
-        <Setter Property="BorderBrush"
-                Value="#AFAFAF" />
-        <Setter Property="BorderThickness"
-                Value="1" />
-        <Setter Property="Padding"
-                Value="2" />
-    </Style>
+    
     <Style x:Key="ToolBarStandardowy"
            TargetType="{x:Type ToolBar}">
         <Setter Property="Background"
-                Value="#AFAFAF" />
+                Value="#FFBCEEFF" />
         <Setter Property="Margin"
                 Value="2" />
         <Setter Property="Padding"
@@ -117,16 +65,5 @@
         <Setter Property="HorizontalAlignment"
                 Value="Center" />
     </Style>
-    <!--Style VAT-->
-    <Style x:Key="LabelDoPrawejVAT"
-           TargetType="{x:Type Label}">
-        <Setter Property="Height"
-                Value="28" />
-        <Setter Property="Margin"
-                Value="4" />
-        <Setter Property="VerticalAlignment"
-                Value="Center" />
-        <Setter Property="HorizontalAlignment"
-                Value="Right" />
-    </Style>
+    
 </ResourceDictionary>

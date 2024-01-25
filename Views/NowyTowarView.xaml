@@ -10,7 +10,7 @@
         <ResourceDictionary Source="View_Resources/StyleZakladekDictionary.xaml" />
     </UserControl.Resources>
     <ScrollViewer Height="810">
-        <Grid Background="white">
+        <Grid Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />

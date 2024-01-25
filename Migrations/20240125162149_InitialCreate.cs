@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FirmaMeble.Migrations
 {
     /// <inheritdoc />
-    public partial class FirmaMeble : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,19 +50,6 @@ namespace FirmaMeble.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rodzaj",
-                columns: table => new
-                {
-                    IdRodzaju = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nazwa = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rodzaj", x => x.IdRodzaju);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SposobPlatnosci",
                 columns: table => new
                 {
@@ -76,7 +63,20 @@ namespace FirmaMeble.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Status",
+                name: "Stanowisko",
+                columns: table => new
+                {
+                    IdStanowiska = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StanowiskoNazwa = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stanowisko", x => x.IdStanowiska);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StatusKontrahenta",
                 columns: table => new
                 {
                     IdStatusu = table.Column<int>(type: "int", nullable: false)
@@ -85,7 +85,20 @@ namespace FirmaMeble.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Status", x => x.IdStatusu);
+                    table.PrimaryKey("PK_StatusKontrahenta", x => x.IdStatusu);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StatusProdukcji",
+                columns: table => new
+                {
+                    IdStatus = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nazwa = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StatusProdukcji", x => x.IdStatus);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,6 +117,24 @@ namespace FirmaMeble.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Towar", x => x.IdTowaru);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Umowa",
+                columns: table => new
+                {
+                    IdUmowy = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StanowiskoId = table.Column<int>(type: "int", nullable: false),
+                    DataRozpoczecia = table.Column<DateTime>(type: "date", nullable: false),
+                    DataZakonczenia = table.Column<DateTime>(type: "date", nullable: true),
+                    KwotaBrutto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CzyAktywna = table.Column<bool>(type: "bit", nullable: false),
+                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Umowa", x => x.IdUmowy);
                 });
 
             migrationBuilder.CreateTable(
@@ -149,16 +180,53 @@ namespace FirmaMeble.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Kontrahent",
+                columns: table => new
+                {
+                    IdKontrahenta = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Kod = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Nazwa = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Nip = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    IdStatusu = table.Column<int>(type: "int", nullable: true),
+                    IdAdresu = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kontrahent", x => x.IdKontrahenta);
+                    table.ForeignKey(
+                        name: "FK_Kontrahent_Adres_IdAdresu",
+                        column: x => x.IdAdresu,
+                        principalTable: "Adres",
+                        principalColumn: "IdAdresu",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Kontrahent_StatusKontrahenta_IdStatusu",
+                        column: x => x.IdStatusu,
+                        principalTable: "StatusKontrahenta",
+                        principalColumn: "IdStatusu");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pracownik",
                 columns: table => new
                 {
                     IdPracownika = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Imie = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DrugieImie = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Nazwisko = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MiejsceUrodzenia = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ImieOjca = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ImieMatki = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Telefon = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Nip = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Pesel = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Stanowisko = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DataUrodzenia = table.Column<DateTime>(type: "date", nullable: false),
                     IdAdresu = table.Column<int>(type: "int", nullable: false),
-                    DataZatrudnienia = table.Column<DateTime>(type: "date", nullable: false)
+                    IdUmowy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -169,39 +237,12 @@ namespace FirmaMeble.Migrations
                         principalTable: "Adres",
                         principalColumn: "IdAdresu",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Kontrahent",
-                columns: table => new
-                {
-                    IdKontrahenta = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Kod = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    Nazwa = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Nip = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    IdRodzaju = table.Column<int>(type: "int", nullable: true),
-                    IdStatusu = table.Column<int>(type: "int", nullable: true),
-                    IdAdresu = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Kontrahent", x => x.IdKontrahenta);
                     table.ForeignKey(
-                        name: "FK_Kontrahent_Adres_IdAdresu",
-                        column: x => x.IdAdresu,
-                        principalTable: "Adres",
-                        principalColumn: "IdAdresu");
-                    table.ForeignKey(
-                        name: "FK_Kontrahent_Rodzaj_IdRodzaju",
-                        column: x => x.IdRodzaju,
-                        principalTable: "Rodzaj",
-                        principalColumn: "IdRodzaju");
-                    table.ForeignKey(
-                        name: "FK_Kontrahent_Status_IdStatusu",
-                        column: x => x.IdStatusu,
-                        principalTable: "Status",
-                        principalColumn: "IdStatusu");
+                        name: "FK_Pracownik_Umowa_IdUmowy",
+                        column: x => x.IdUmowy,
+                        principalTable: "Umowa",
+                        principalColumn: "IdUmowy",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,58 +265,6 @@ namespace FirmaMeble.Migrations
                         principalTable: "Dostawca",
                         principalColumn: "IdDostawcy",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProdukcjaMebla",
-                columns: table => new
-                {
-                    IdProdukcji = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdTowaru = table.Column<int>(type: "int", nullable: false),
-                    DataRozpoczęcia = table.Column<DateTime>(type: "date", nullable: false),
-                    DataZakończenia = table.Column<DateTime>(type: "date", nullable: false),
-                    IlośćProdukowanychSztuk = table.Column<int>(type: "int", nullable: false),
-                    IdPracownika = table.Column<int>(type: "int", nullable: false),
-                    StatusProdukcji = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProdukcjaMebla", x => x.IdProdukcji);
-                    table.ForeignKey(
-                        name: "FK_ProdukcjaMebla_Pracownik_IdPracownika",
-                        column: x => x.IdPracownika,
-                        principalTable: "Pracownik",
-                        principalColumn: "IdPracownika",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProdukcjaMebla_Towar_IdTowaru",
-                        column: x => x.IdTowaru,
-                        principalTable: "Towar",
-                        principalColumn: "IdTowaru",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Umowa",
-                columns: table => new
-                {
-                    IdUmowy = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypUmowy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DataRozpoczecia = table.Column<DateTime>(type: "date", nullable: false),
-                    DataZakonczenia = table.Column<DateTime>(type: "date", nullable: true),
-                    KwotaBrutto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IdPracownika = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Umowa", x => x.IdUmowy);
-                    table.ForeignKey(
-                        name: "Umowa_Pracownik",
-                        column: x => x.IdPracownika,
-                        principalTable: "Pracownik",
-                        principalColumn: "IdPracownika");
                 });
 
             migrationBuilder.CreateTable(
@@ -329,6 +318,42 @@ namespace FirmaMeble.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProdukcjaMebla",
+                columns: table => new
+                {
+                    IdProdukcji = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdTowaru = table.Column<int>(type: "int", nullable: false),
+                    DataRozpoczęcia = table.Column<DateTime>(type: "date", nullable: false),
+                    DataZakończenia = table.Column<DateTime>(type: "date", nullable: false),
+                    IlośćProdukowanychSztuk = table.Column<int>(type: "int", nullable: false),
+                    IdPracownika = table.Column<int>(type: "int", nullable: false),
+                    StatusProdukcjiIdStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProdukcjaMebla", x => x.IdProdukcji);
+                    table.ForeignKey(
+                        name: "FK_ProdukcjaMebla_Pracownik_IdPracownika",
+                        column: x => x.IdPracownika,
+                        principalTable: "Pracownik",
+                        principalColumn: "IdPracownika",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProdukcjaMebla_StatusProdukcji_StatusProdukcjiIdStatus",
+                        column: x => x.StatusProdukcjiIdStatus,
+                        principalTable: "StatusProdukcji",
+                        principalColumn: "IdStatus",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProdukcjaMebla_Towar_IdTowaru",
+                        column: x => x.IdTowaru,
+                        principalTable: "Towar",
+                        principalColumn: "IdTowaru",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SzczegolyZamowienia",
                 columns: table => new
                 {
@@ -366,23 +391,72 @@ namespace FirmaMeble.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Faktura",
-                columns: new[] { "IdFaktury", "DataWystawienia", "IdKontrahenta", "IdSposobuPlatnosci", "Numer", "TerminPlatnosci" },
-                values: new object[] { 1, null, null, null, null, null });
-
-            migrationBuilder.InsertData(
-                table: "Kontrahent",
-                columns: new[] { "IdKontrahenta", "IdAdresu", "IdRodzaju", "IdStatusu", "Kod", "Nazwa", "Nip" },
+                table: "SposobPlatnosci",
+                columns: new[] { "IdSposobuPlatnosci", "Nazwa" },
                 values: new object[,]
                 {
-                    { 1, 1, null, null, null, "Klient A", null },
-                    { 2, 2, null, null, null, "Dostawca X", null }
+                    { 1, "Płatność kartą" },
+                    { 2, "Płatność gotówką" },
+                    { 3, "Przelew bankowy" }
                 });
 
             migrationBuilder.InsertData(
+                table: "Stanowisko",
+                columns: new[] { "IdStanowiska", "StanowiskoNazwa" },
+                values: new object[,]
+                {
+                    { 1, "Pracownik Produkcji" },
+                    { 2, "Pracownik Sprzedaży" },
+                    { 3, "Kierownik Działu" },
+                    { 4, "Sekretarz" },
+                    { 5, "Księgowy" },
+                    { 6, "Dostawca" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StatusKontrahenta",
+                columns: new[] { "IdStatusu", "Nazwa" },
+                values: new object[,]
+                {
+                    { 1, "Aktywny klient" },
+                    { 2, "Czasowy klient" },
+                    { 3, "Zawieszony klient" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StatusProdukcji",
+                columns: new[] { "IdStatus", "Nazwa" },
+                values: new object[,]
+                {
+                    { 1, "nie rozpoczęto" },
+                    { 2, "w przygotowaniu" },
+                    { 3, "produkcja" },
+                    { 4, "gotowe" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Umowa",
+                columns: new[] { "IdUmowy", "CzyAktywna", "DataRozpoczecia", "DataZakonczenia", "KwotaBrutto", "Opis", "StanowiskoId" },
+                values: new object[] { 1, false, new DateTime(2024, 1, 25, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2027, 1, 25, 0, 0, 0, 0, DateTimeKind.Local), 300m, "Jakiś opis", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Kontrahent",
+                columns: new[] { "IdKontrahenta", "IdAdresu", "IdStatusu", "Kod", "Nazwa", "Nip" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, null, "Klient A", null },
+                    { 2, 2, 2, null, "Dostawca X", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Pracownik",
+                columns: new[] { "IdPracownika", "DataUrodzenia", "DrugieImie", "Email", "IdAdresu", "IdUmowy", "Imie", "ImieMatki", "ImieOjca", "MiejsceUrodzenia", "Nazwisko", "Nip", "Pesel", "Stanowisko", "Telefon" },
+                values: new object[] { 1, new DateTime(1979, 1, 25, 0, 0, 0, 0, DateTimeKind.Local), "Matejko", "kasia@wp.pl", 1, 1, "Maciek", "Kasia", "Stanisław", "Nowy Sącz", "Kowalski", "1234567890", "77021205531", "Profesor", "1234567" });
+
+            migrationBuilder.InsertData(
                 table: "Faktura",
                 columns: new[] { "IdFaktury", "DataWystawienia", "IdKontrahenta", "IdSposobuPlatnosci", "Numer", "TerminPlatnosci" },
-                values: new object[] { 2, new DateTime(2024, 1, 14, 9, 52, 14, 615, DateTimeKind.Local).AddTicks(6282), 1, null, "FV/2024/01", new DateTime(2024, 2, 13, 9, 52, 14, 615, DateTimeKind.Local).AddTicks(6327) });
+                values: new object[] { 2, new DateTime(2024, 1, 25, 17, 21, 48, 898, DateTimeKind.Local).AddTicks(2220), 1, 1, "FV/2024/01", new DateTime(2024, 2, 24, 17, 21, 48, 898, DateTimeKind.Local).AddTicks(2267) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dostawca_IdAdresu",
@@ -405,11 +479,6 @@ namespace FirmaMeble.Migrations
                 column: "IdAdresu");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Kontrahent_IdRodzaju",
-                table: "Kontrahent",
-                column: "IdRodzaju");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Kontrahent_IdStatusu",
                 table: "Kontrahent",
                 column: "IdStatusu");
@@ -425,6 +494,12 @@ namespace FirmaMeble.Migrations
                 column: "IdAdresu");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pracownik_IdUmowy",
+                table: "Pracownik",
+                column: "IdUmowy",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProdukcjaMebla_IdPracownika",
                 table: "ProdukcjaMebla",
                 column: "IdPracownika");
@@ -435,6 +510,11 @@ namespace FirmaMeble.Migrations
                 column: "IdTowaru");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProdukcjaMebla_StatusProdukcjiIdStatus",
+                table: "ProdukcjaMebla",
+                column: "StatusProdukcjiIdStatus");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SzczegolyZamowienia_IdTowaru",
                 table: "SzczegolyZamowienia",
                 column: "IdTowaru");
@@ -443,11 +523,6 @@ namespace FirmaMeble.Migrations
                 name: "IX_SzczegolyZamowienia_IdZamowienia",
                 table: "SzczegolyZamowienia",
                 column: "IdZamowienia");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Umowa_IdPracownika",
-                table: "Umowa",
-                column: "IdPracownika");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ZakupMaterialow_IdDostawcy",
@@ -476,10 +551,10 @@ namespace FirmaMeble.Migrations
                 name: "ProdukcjaMebla");
 
             migrationBuilder.DropTable(
-                name: "SzczegolyZamowienia");
+                name: "Stanowisko");
 
             migrationBuilder.DropTable(
-                name: "Umowa");
+                name: "SzczegolyZamowienia");
 
             migrationBuilder.DropTable(
                 name: "ZakupMaterialow");
@@ -488,16 +563,22 @@ namespace FirmaMeble.Migrations
                 name: "SposobPlatnosci");
 
             migrationBuilder.DropTable(
+                name: "Pracownik");
+
+            migrationBuilder.DropTable(
+                name: "StatusProdukcji");
+
+            migrationBuilder.DropTable(
                 name: "Towar");
 
             migrationBuilder.DropTable(
                 name: "Zamowienie");
 
             migrationBuilder.DropTable(
-                name: "Pracownik");
+                name: "Dostawca");
 
             migrationBuilder.DropTable(
-                name: "Dostawca");
+                name: "Umowa");
 
             migrationBuilder.DropTable(
                 name: "Kontrahent");
@@ -506,10 +587,7 @@ namespace FirmaMeble.Migrations
                 name: "Adres");
 
             migrationBuilder.DropTable(
-                name: "Rodzaj");
-
-            migrationBuilder.DropTable(
-                name: "Status");
+                name: "StatusKontrahenta");
         }
     }
 }

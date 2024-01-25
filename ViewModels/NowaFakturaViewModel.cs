@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FirmaMeble.ViewModels
 {
-    using Abstracts;
+    using Base;
     using Data.Models;
+    using System.Windows;
 
     public class NowaFakturaViewModel : JedenViewModel<Faktura>
     {
@@ -96,5 +97,49 @@ namespace FirmaMeble.ViewModels
             from sposobPlatnosci in DbEntities.SposobPlatnosciDbSet
             select sposobPlatnosci
         ).ToList().AsQueryable();
+
+
+
+        //public ObservableCollection<Umowa> Umowy
+        //{
+        //    get => new(Item.Umowy);
+        //    set
+        //    {
+        //        if (Item.Umowy != value)
+        //        {
+        //            Item.Umowy = value;
+        //            OnPropertyChanged(() => Umowy);
+        //        }
+        //    }
+        //}
+
+        //public void DodajUmowe(Umowa umowa)
+        //{
+        //    if (umowa != null && !Item.Umowy.Contains(umowa))
+        //    {
+        //        Item.Umowy.Add(umowa);
+        //        OnPropertyChanged(() => Umowy);
+        //    }
+        //}
+
+        //public void UsunUmowe(Umowa umowa)
+        //{
+        //    if (umowa != null && Item.Umowy.Contains(umowa))
+        //    {
+        //        Item.Umowy.Remove(umowa);
+        //        OnPropertyChanged(() => Umowy);
+        //    }
+        //}
+
+
+        public override void ClearForm()
+        {
+            MessageBox.Show("Cleared Form!", "Formularz");
+        }
+
+        public override bool IsDateSetValid()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

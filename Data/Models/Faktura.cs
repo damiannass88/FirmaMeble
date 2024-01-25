@@ -19,11 +19,10 @@
         public int? IdSposobuPlatnosci { get; set; }
 
         [ForeignKey("IdKontrahenta")]
-        [InverseProperty("FakturaDbSet")]
         public virtual Kontrahent? IdKontrahentaNavigation { get; set; }
 
         [ForeignKey("IdSposobuPlatnosci")]
-        [InverseProperty("FakturaDbSet")]
         public virtual SposobPlatnosci? IdSposobuPlatnosciNavigation { get; set; }
+         
     }
 }

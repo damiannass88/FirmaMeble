@@ -22,6 +22,6 @@
 
         public virtual Pracownik Pracownik { get; set; }
 
-        [StringLength(50)] public string StatusProdukcji { get; set; }
+        public StatusProdukcji StatusProdukcji { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace FirmaMeble.ViewModels
+﻿namespace FirmaMeble.ViewModels.Base
 {
     using System.ComponentModel;
     using System.Linq.Expressions;
@@ -29,6 +29,6 @@
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

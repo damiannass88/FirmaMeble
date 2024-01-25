@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FirmaMeble.Migrations
 {
     [DbContext(typeof(DataBaseEntities))]
-    [Migration("20240114085215_FirmaMeble")]
-    partial class FirmaMeble
+    [Migration("20240125162149_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,15 +141,12 @@ namespace FirmaMeble.Migrations
                     b.HasData(
                         new
                         {
-                            IdFaktury = 1
-                        },
-                        new
-                        {
                             IdFaktury = 2,
-                            DataWystawienia = new DateTime(2024, 1, 14, 9, 52, 14, 615, DateTimeKind.Local).AddTicks(6282),
+                            DataWystawienia = new DateTime(2024, 1, 25, 17, 21, 48, 898, DateTimeKind.Local).AddTicks(2220),
                             IdKontrahenta = 1,
+                            IdSposobuPlatnosci = 1,
                             Numer = "FV/2024/01",
-                            TerminPlatnosci = new DateTime(2024, 2, 13, 9, 52, 14, 615, DateTimeKind.Local).AddTicks(6327)
+                            TerminPlatnosci = new DateTime(2024, 2, 24, 17, 21, 48, 898, DateTimeKind.Local).AddTicks(2267)
                         });
                 });
 
@@ -196,10 +193,7 @@ namespace FirmaMeble.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdKontrahenta"));
 
-                    b.Property<int?>("IdAdresu")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdRodzaju")
+                    b.Property<int>("IdAdresu")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdStatusu")
@@ -221,8 +215,6 @@ namespace FirmaMeble.Migrations
 
                     b.HasIndex("IdAdresu");
 
-                    b.HasIndex("IdRodzaju");
-
                     b.HasIndex("IdStatusu");
 
                     b.ToTable("Kontrahent");
@@ -232,12 +224,14 @@ namespace FirmaMeble.Migrations
                         {
                             IdKontrahenta = 1,
                             IdAdresu = 1,
+                            IdStatusu = 1,
                             Nazwa = "Klient A"
                         },
                         new
                         {
                             IdKontrahenta = 2,
                             IdAdresu = 2,
+                            IdStatusu = 2,
                             Nazwa = "Dostawca X"
                         });
                 });
@@ -276,13 +270,41 @@ namespace FirmaMeble.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPracownika"));
 
-                    b.Property<DateTime>("DataZatrudnienia")
+                    b.Property<DateTime>("DataUrodzenia")
                         .HasColumnType("date");
+
+                    b.Property<string>("DrugieImie")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("IdAdresu")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdUmowy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Imie")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ImieMatki")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ImieOjca")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MiejsceUrodzenia")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -292,7 +314,22 @@ namespace FirmaMeble.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Nip")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Pesel")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("Stanowisko")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Telefon")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -301,7 +338,30 @@ namespace FirmaMeble.Migrations
 
                     b.HasIndex("IdAdresu");
 
+                    b.HasIndex("IdUmowy")
+                        .IsUnique();
+
                     b.ToTable("Pracownik");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPracownika = 1,
+                            DataUrodzenia = new DateTime(1979, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DrugieImie = "Matejko",
+                            Email = "kasia@wp.pl",
+                            IdAdresu = 1,
+                            IdUmowy = 1,
+                            Imie = "Maciek",
+                            ImieMatki = "Kasia",
+                            ImieOjca = "Stanisław",
+                            MiejsceUrodzenia = "Nowy Sącz",
+                            Nazwisko = "Kowalski",
+                            Nip = "1234567890",
+                            Pesel = "77021205531",
+                            Stanowisko = "Profesor",
+                            Telefon = "1234567"
+                        });
                 });
 
             modelBuilder.Entity("FirmaMeble.Data.Models.ProdukcjaMebla", b =>
@@ -327,10 +387,8 @@ namespace FirmaMeble.Migrations
                     b.Property<int>("IlośćProdukowanychSztuk")
                         .HasColumnType("int");
 
-                    b.Property<string>("StatusProdukcji")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("StatusProdukcjiIdStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("IdProdukcji");
 
@@ -338,24 +396,9 @@ namespace FirmaMeble.Migrations
 
                     b.HasIndex("IdTowaru");
 
+                    b.HasIndex("StatusProdukcjiIdStatus");
+
                     b.ToTable("ProdukcjaMebla");
-                });
-
-            modelBuilder.Entity("FirmaMeble.Data.Models.Rodzaj", b =>
-                {
-                    b.Property<int>("IdRodzaju")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRodzaju"));
-
-                    b.Property<string>("Nazwa")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("IdRodzaju");
-
-                    b.ToTable("Rodzaj");
                 });
 
             modelBuilder.Entity("FirmaMeble.Data.Models.SposobPlatnosci", b =>
@@ -373,9 +416,76 @@ namespace FirmaMeble.Migrations
                     b.HasKey("IdSposobuPlatnosci");
 
                     b.ToTable("SposobPlatnosci");
+
+                    b.HasData(
+                        new
+                        {
+                            IdSposobuPlatnosci = 1,
+                            Nazwa = "Płatność kartą"
+                        },
+                        new
+                        {
+                            IdSposobuPlatnosci = 2,
+                            Nazwa = "Płatność gotówką"
+                        },
+                        new
+                        {
+                            IdSposobuPlatnosci = 3,
+                            Nazwa = "Przelew bankowy"
+                        });
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Models.Status", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.StanowiskaPracownikow", b =>
+                {
+                    b.Property<int>("IdStanowiska")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdStanowiska"));
+
+                    b.Property<string>("StanowiskoNazwa")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("IdStanowiska");
+
+                    b.ToTable("Stanowisko");
+
+                    b.HasData(
+                        new
+                        {
+                            IdStanowiska = 1,
+                            StanowiskoNazwa = "Pracownik Produkcji"
+                        },
+                        new
+                        {
+                            IdStanowiska = 2,
+                            StanowiskoNazwa = "Pracownik Sprzedaży"
+                        },
+                        new
+                        {
+                            IdStanowiska = 3,
+                            StanowiskoNazwa = "Kierownik Działu"
+                        },
+                        new
+                        {
+                            IdStanowiska = 4,
+                            StanowiskoNazwa = "Sekretarz"
+                        },
+                        new
+                        {
+                            IdStanowiska = 5,
+                            StanowiskoNazwa = "Księgowy"
+                        },
+                        new
+                        {
+                            IdStanowiska = 6,
+                            StanowiskoNazwa = "Dostawca"
+                        });
+                });
+
+            modelBuilder.Entity("FirmaMeble.Data.Models.StatusKontrahenta", b =>
                 {
                     b.Property<int>("IdStatusu")
                         .ValueGeneratedOnAdd()
@@ -389,7 +499,63 @@ namespace FirmaMeble.Migrations
 
                     b.HasKey("IdStatusu");
 
-                    b.ToTable("Status");
+                    b.ToTable("StatusKontrahenta");
+
+                    b.HasData(
+                        new
+                        {
+                            IdStatusu = 1,
+                            Nazwa = "Aktywny klient"
+                        },
+                        new
+                        {
+                            IdStatusu = 2,
+                            Nazwa = "Czasowy klient"
+                        },
+                        new
+                        {
+                            IdStatusu = 3,
+                            Nazwa = "Zawieszony klient"
+                        });
+                });
+
+            modelBuilder.Entity("FirmaMeble.Data.Models.StatusProdukcji", b =>
+                {
+                    b.Property<int>("IdStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdStatus"));
+
+                    b.Property<string>("Nazwa")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("IdStatus");
+
+                    b.ToTable("StatusProdukcji");
+
+                    b.HasData(
+                        new
+                        {
+                            IdStatus = 1,
+                            Nazwa = "nie rozpoczęto"
+                        },
+                        new
+                        {
+                            IdStatus = 2,
+                            Nazwa = "w przygotowaniu"
+                        },
+                        new
+                        {
+                            IdStatus = 3,
+                            Nazwa = "produkcja"
+                        },
+                        new
+                        {
+                            IdStatus = 4,
+                            Nazwa = "gotowe"
+                        });
                 });
 
             modelBuilder.Entity("FirmaMeble.Data.Models.SzczegolyZamowienia", b =>
@@ -462,28 +628,39 @@ namespace FirmaMeble.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUmowy"));
 
+                    b.Property<bool>("CzyAktywna")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("DataRozpoczecia")
                         .HasColumnType("date");
 
                     b.Property<DateTime?>("DataZakonczenia")
                         .HasColumnType("date");
 
-                    b.Property<int>("IdPracownika")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("KwotaBrutto")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("TypUmowy")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("Opis")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StanowiskoId")
+                        .HasColumnType("int");
 
                     b.HasKey("IdUmowy");
 
-                    b.HasIndex("IdPracownika");
-
                     b.ToTable("Umowa");
+
+                    b.HasData(
+                        new
+                        {
+                            IdUmowy = 1,
+                            CzyAktywna = false,
+                            DataRozpoczecia = new DateTime(2024, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DataZakonczenia = new DateTime(2027, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            KwotaBrutto = 300m,
+                            Opis = "Jakiś opis",
+                            StanowiskoId = 1
+                        });
                 });
 
             modelBuilder.Entity("FirmaMeble.Data.Models.ZakupMaterialow", b =>
@@ -565,7 +742,7 @@ namespace FirmaMeble.Migrations
                         .HasForeignKey("IdKontrahenta");
 
                     b.HasOne("FirmaMeble.Data.Models.SposobPlatnosci", "IdSposobuPlatnosciNavigation")
-                        .WithMany("FakturaDbSet")
+                        .WithMany()
                         .HasForeignKey("IdSposobuPlatnosci");
 
                     b.Navigation("IdKontrahentaNavigation");
@@ -576,22 +753,18 @@ namespace FirmaMeble.Migrations
             modelBuilder.Entity("FirmaMeble.Data.Models.Kontrahent", b =>
                 {
                     b.HasOne("FirmaMeble.Data.Models.Adres", "IdAdresuNavigation")
-                        .WithMany("KontrahentDbSet")
-                        .HasForeignKey("IdAdresu");
+                        .WithMany()
+                        .HasForeignKey("IdAdresu")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("FirmaMeble.Data.Models.Rodzaj", "IdRodzajuNavigation")
-                        .WithMany("KontrahentDbSet")
-                        .HasForeignKey("IdRodzaju");
-
-                    b.HasOne("FirmaMeble.Data.Models.Status", "IdStatusuNavigation")
-                        .WithMany("KontrahentDbSet")
+                    b.HasOne("FirmaMeble.Data.Models.StatusKontrahenta", "IdStatusKontrahentaNavigation")
+                        .WithMany()
                         .HasForeignKey("IdStatusu");
 
                     b.Navigation("IdAdresuNavigation");
 
-                    b.Navigation("IdRodzajuNavigation");
-
-                    b.Navigation("IdStatusuNavigation");
+                    b.Navigation("IdStatusKontrahentaNavigation");
                 });
 
             modelBuilder.Entity("FirmaMeble.Data.Models.Magazyn", b =>
@@ -613,7 +786,15 @@ namespace FirmaMeble.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FirmaMeble.Data.Models.Umowa", "Umowa")
+                        .WithOne("Pracownik")
+                        .HasForeignKey("FirmaMeble.Data.Models.Pracownik", "IdUmowy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Adres");
+
+                    b.Navigation("Umowa");
                 });
 
             modelBuilder.Entity("FirmaMeble.Data.Models.ProdukcjaMebla", b =>
@@ -630,7 +811,15 @@ namespace FirmaMeble.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FirmaMeble.Data.Models.StatusProdukcji", "StatusProdukcji")
+                        .WithMany()
+                        .HasForeignKey("StatusProdukcjiIdStatus")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Pracownik");
+
+                    b.Navigation("StatusProdukcji");
 
                     b.Navigation("Towar");
                 });
@@ -652,17 +841,6 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Towar");
 
                     b.Navigation("Zamowienie");
-                });
-
-            modelBuilder.Entity("FirmaMeble.Data.Models.Umowa", b =>
-                {
-                    b.HasOne("FirmaMeble.Data.Models.Pracownik", "Pracownik")
-                        .WithMany("Umowy")
-                        .HasForeignKey("IdPracownika")
-                        .IsRequired()
-                        .HasConstraintName("Umowa_Pracownik");
-
-                    b.Navigation("Pracownik");
                 });
 
             modelBuilder.Entity("FirmaMeble.Data.Models.ZakupMaterialow", b =>
@@ -687,34 +865,15 @@ namespace FirmaMeble.Migrations
                     b.Navigation("Klient");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Models.Adres", b =>
-                {
-                    b.Navigation("KontrahentDbSet");
-                });
-
             modelBuilder.Entity("FirmaMeble.Data.Models.Kontrahent", b =>
                 {
                     b.Navigation("FakturaDbSet");
                 });
 
-            modelBuilder.Entity("FirmaMeble.Data.Models.Pracownik", b =>
+            modelBuilder.Entity("FirmaMeble.Data.Models.Umowa", b =>
                 {
-                    b.Navigation("Umowy");
-                });
-
-            modelBuilder.Entity("FirmaMeble.Data.Models.Rodzaj", b =>
-                {
-                    b.Navigation("KontrahentDbSet");
-                });
-
-            modelBuilder.Entity("FirmaMeble.Data.Models.SposobPlatnosci", b =>
-                {
-                    b.Navigation("FakturaDbSet");
-                });
-
-            modelBuilder.Entity("FirmaMeble.Data.Models.Status", b =>
-                {
-                    b.Navigation("KontrahentDbSet");
+                    b.Navigation("Pracownik")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

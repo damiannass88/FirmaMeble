@@ -1,26 +1,22 @@
 ﻿namespace FirmaMeble.ViewModels
 {
-    using System.Collections.ObjectModel;
+    using Base;
     using Data.Models;
-    using FirmaMeble.ViewModels.Abstracts;
 
     public class WszystkieFakturyViewModel : WszystkieViewModel<FakturaForView>
     {
         public WszystkieFakturyViewModel()
-            : base("Faktury")
+            : base("All Faktury")
         {
         }
- 
-        public override void Load()
+
+        public override IQueryable<FakturaForView> GetQueryStatement()
         {
-            List = new ObservableCollection<FakturaForView>
-            (
-                //dla każdej fatury z bazy danych faktur
-                from faktura in DbEntities.FakturaDbSet
-                    //tworzymy nową FakturęForView
+            return from faktura in DbEntities.FakturaDbSet
+                //tworzymy nową FakturyForView
                 select new FakturaForView
                 {
-                    IdFaktury = faktura.IdFaktury,//id nowej faktury ustawiamy takie jak id faktury z bazy danych
+                    IdFaktury = faktura.IdFaktury, //id nowej faktury ustawiamy takie jak id faktury z bazy danych
                     Numer = faktura.Numer,
                     DataWystawienia = faktura.DataWystawienia,
                     KontrahentNazwa = faktura.IdKontrahentaNavigation.Nazwa,
@@ -31,8 +27,7 @@
                         + faktura.IdKontrahentaNavigation.IdAdresuNavigation.NrDomu,
                     TerminPlatnosci = faktura.TerminPlatnosci,
                     SposobPlatnosciNazwa = faktura.IdSposobuPlatnosciNavigation.Nazwa
-                }
-            );
+                };
         }
     }
 }

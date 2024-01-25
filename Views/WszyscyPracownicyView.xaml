@@ -4,8 +4,37 @@
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               mc:Ignorable="d" 
-              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
-        <Label>Tu bedzie wyswietlanie pracownikow</Label>
+              d:DesignHeight="450" d:DesignWidth="1000">
+    <Grid Height="810" Background="BlanchedAlmond">
+        <DataGrid AutoGenerateColumns="False"
+                  ItemsSource="{Binding List}"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id Pracownika"
+                                    Binding="{Binding Path=IdPracownika}" />
+                <DataGridTextColumn Header="DrugieImie"
+                                    Binding="{Binding Path=DrugieImie}" />
+                <DataGridTextColumn Header="Imie"
+                                    Binding="{Binding Path=Imie}" />
+                <DataGridTextColumn Header="Miejsce Urodzenia"
+                                    Binding="{Binding Path=MiejsceUrodzenia}" />
+                <DataGridTextColumn Header="Imie Ojca"
+                                    Binding="{Binding Path=ImieOjca}" />
+                <DataGridTextColumn Header="Imie Matki"
+                                    Binding="{Binding Path=ImieMatki}" />
+                <DataGridTextColumn Header="Pesel"
+                                    Binding="{Binding Path=Pesel}" />
+                <DataGridTextColumn Header="Telefon"
+                                    Binding="{Binding Path=Telefon}" />
+                <DataGridTextColumn Header="Email"
+                                    Binding="{Binding Path=Email}" />
+                <DataGridTextColumn Header="Stanowisko"
+                                    Binding="{Binding Path=Stanowisko}" />
+                <DataGridTextColumn Header="Data Urodzenia"
+                                    Binding="{Binding Path=DataUrodzenia}" />
+                <DataGridTextColumn Header="Stanowisko"
+                                    Binding="{Binding Path=Stanowisko}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

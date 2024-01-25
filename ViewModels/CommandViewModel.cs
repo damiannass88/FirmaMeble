@@ -1,6 +1,7 @@
 ﻿namespace FirmaMeble.ViewModels
 {
     using System.Windows.Input;
+    using Base;
 
     public class CommandViewModel : BaseViewModel
     {

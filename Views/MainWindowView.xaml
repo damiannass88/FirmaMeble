@@ -10,7 +10,7 @@
         AllowsTransparency="True"
         WindowStyle="None"
         Title="FirmaMeble"
-        Height="1000" Width="1500"
+        Height="1000" Width="1570"
         MouseDown="Window_DragMove"
         Icon="..\Resources\Icons\home-6-512.ico">
     <Window.Background>
@@ -29,7 +29,7 @@
             <LinearGradientBrush StartPoint="1,1" EndPoint="0,1"
                                  MappingMode="RelativeToBoundingBox">
                 <GradientStop Color="#E5A1A1A1" Offset="1" />
-                <GradientStop Color="Transparent" Offset="0" />
+                <GradientStop Color="#66F00AA0" Offset="0" />
             </LinearGradientBrush>
         </Border.Background>
         <Border.Effect>
@@ -52,7 +52,7 @@
                 <WrapPanel Orientation="Horizontal"
                            HorizontalAlignment="Right"
                            Margin="0,0,4,0">
-                    <Label Content="FirmaMeble" FontSize="14" HorizontalAlignment="Center" Width="800" />
+                    <Label Content="FirmaMeble" FontSize="16" HorizontalAlignment="Center" Width="800" FontFamily="Cooper Black" />
                     <Button x:Name="MinimizeBtn"
                             Content="__"
                             Width="26"
@@ -144,12 +144,16 @@
                         Command="{Binding ShowAllFakturyCommand}" Cursor="Hand">
                     <Image Source="..\Resources\Icons\contract.png" />
                 </Button>
+                <Button Width="32" Height="32" Background="LightBlue" Margin="2"
+                        Command="{Binding ShowUmowyPracownikowCommand}" Cursor="Hand">
+                    <Image Source="..\Resources\Icons\pz.png" />
+                </Button>
                 <Separator />
             </ToolBar>
 
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="220" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Background="LightPink" Margin="6,4">
@@ -157,7 +161,6 @@
                         Content="{Binding GetAvailableCommands}"
                         ContentTemplate="{StaticResource CommandsTemplate}"
                         Style="{StaticResource MainHCCStyle}" />
-
                 </Border>
                 <Border Grid.Column="1" BorderThickness="5" BorderBrush="DeepPink" Margin="4" CornerRadius="3">
                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

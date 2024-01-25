@@ -6,6 +6,7 @@ namespace FirmaMeble.ViewModels
     using System.ComponentModel;
     using System.Windows.Data;
     using System.Windows.Input;
+    using Base;
     using Commands;
 
     public class MainWindowViewModel : BaseViewModel
@@ -29,6 +30,8 @@ namespace FirmaMeble.ViewModels
         public ICommand CreateFakturaCommand => new RelayCommand(CreateFaktura);
 
         public ICommand ShowAllFakturyCommand => new RelayCommand(ShowAllFaktury);
+        
+        public ICommand ShowUmowyPracownikowCommand => new RelayCommand(ShowAllUmowyPracownikow);
 
         public ReadOnlyCollection<CommandViewModel> GetAvailableCommands => new(CreateCommands());
 
@@ -43,12 +46,15 @@ namespace FirmaMeble.ViewModels
         {
             return
             [
-                new CommandViewModel("Towar", new RelayCommand(CreateTowar)),
-                new CommandViewModel("Towary", new RelayCommand(ShowAllTowar)),
-                new CommandViewModel("Pracownik", new RelayCommand(CreatePracownik)),
-                new CommandViewModel("Pracownicy", new RelayCommand(ShowAllPracownicy)),
-                new CommandViewModel("Faktura", new RelayCommand(CreateFaktura)),
-                new CommandViewModel("Faktury", new RelayCommand(ShowAllFaktury))
+                new CommandViewModel("Nowy Towar", new RelayCommand(CreateTowar)),
+                new CommandViewModel("All Towary", new RelayCommand(ShowAllTowar)),
+                new CommandViewModel("Nowy Pracownik", new RelayCommand(CreatePracownik)),
+                new CommandViewModel("All Pracownicy", new RelayCommand(ShowAllPracownicy)),
+                new CommandViewModel("Nowa Faktura", new RelayCommand(CreateFaktura)),
+                new CommandViewModel("All Faktury", new RelayCommand(ShowAllFaktury)),
+                new CommandViewModel("Umowy Pracowników", new RelayCommand(ShowAllUmowyPracownikow)),
+                new CommandViewModel("Nowy Kontrahent", new RelayCommand(CreateKontrahent)),
+                new CommandViewModel("All Kontrahent", new RelayCommand(ShowAllKontrahent))
             ];
         }
 
@@ -100,7 +106,6 @@ namespace FirmaMeble.ViewModels
             SetActiveWorkspace(workspace);
         }
 
-
         private void ShowAllTowar()
         {
             if (WorkspacesTabViewsCollection.FirstOrDefault(vm => vm is WszystkieTowaryViewModel) is not
@@ -133,6 +138,39 @@ namespace FirmaMeble.ViewModels
                 WszystkieFakturyViewModel workspace)
             {
                 workspace = new WszystkieFakturyViewModel();
+                WorkspacesTabViewsCollection.Add(workspace);
+            }
+
+            SetActiveWorkspace(workspace);
+        }
+
+        private void ShowAllUmowyPracownikow()
+        {
+            if (WorkspacesTabViewsCollection.FirstOrDefault(vm => vm is PracownicyUmowyViewModel) is not
+                PracownicyUmowyViewModel workspace)
+            {
+                workspace = new PracownicyUmowyViewModel();
+                WorkspacesTabViewsCollection.Add(workspace);
+            }
+
+            SetActiveWorkspace(workspace);
+        }
+
+        private void CreateKontrahent()
+        {
+            NowyKontrahentViewModel workspace = new();
+            WorkspacesTabViewsCollection.Add(workspace);
+            SetActiveWorkspace(workspace);
+        }
+
+        private void ShowAllKontrahent()
+        {
+            WszyscyKontrahenciViewModel? workspace =
+                WorkspacesTabViewsCollection.FirstOrDefault(vm => vm is WszyscyKontrahenciViewModel)
+                    as WszyscyKontrahenciViewModel;
+            if (workspace == null)
+            {
+                workspace = new WszyscyKontrahenciViewModel();
                 WorkspacesTabViewsCollection.Add(workspace);
             }
 

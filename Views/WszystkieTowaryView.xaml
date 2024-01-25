@@ -5,13 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding List}">
+    <Grid Height="810" Background="Azure">
+        <DataGrid  AutoGenerateColumns="False"  ItemsSource="{Binding  TowaryList}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding IdTowaru}"/>
-                <DataGridTextColumn Header="Kod" Binding="{Binding Kod}"/>
-                <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}"/>
-                <DataGridTextColumn Header="Cena" Binding="{Binding Cena}"/>
+                <DataGridTextColumn  x:Name="id"  Binding="{Binding  Path=id}" Header="Nr"/>
+                <DataGridTextColumn  x:Name="kod"  Binding="{Binding  Path=kod}" Header="Kod"/>
+                <DataGridTextColumn  x:Name="nazwa"  Binding="{Binding  Path=nazwa}" Header="Nazwa"/>
+                <DataGridTextColumn  x:Name="cena"  Binding="{Binding  Path=cena}" Header="Cena"/>
+                <DataGridTextColumn  x:Name="marza"  Binding="{Binding  Path=marza}" Header="Marza"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="FirmaMeble.Views.UmowyPracownikow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="1000" >
+
+    <StackPanel Height="810" Background="#FFF9C25C">
+        <DockPanel>
+            <Label Content="Wybierz Pracownika:" />
+            <ComboBox Width="300"
+                      HorizontalAlignment="Left"
+                      ItemsSource="{Binding PracownicyComboBoxItems}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValue="{Binding Path=SelectedPracownik, Mode=TwoWay, ValidatesOnDataErrors=True}" />
+        </DockPanel>
+        <DataGrid AutoGenerateColumns="False"
+                  ItemsSource="{Binding PracownikView}"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id Pracownika"
+                                    Binding="{Binding Path=IdPracownika}" />
+                <DataGridTextColumn Header="DrugieImie"
+                                    Binding="{Binding Path=DrugieImie}" />
+                <DataGridTextColumn Header="Imie"
+                                    Binding="{Binding Path=Imie}" />
+                <DataGridTextColumn Header="Miejsce Urodzenia"
+                                    Binding="{Binding Path=MiejsceUrodzenia}" />
+                <DataGridTextColumn Header="Imie Ojca"
+                                    Binding="{Binding Path=ImieOjca}" />
+                <DataGridTextColumn Header="Imie Matki"
+                                    Binding="{Binding Path=ImieMatki}" />
+                <DataGridTextColumn Header="Pesel"
+                                    Binding="{Binding Path=Pesel}" />
+                <DataGridTextColumn Header="Telefon"
+                                    Binding="{Binding Path=Telefon}" />
+                <DataGridTextColumn Header="Email"
+                                    Binding="{Binding Path=Email}" />
+                <DataGridTextColumn Header="Stanowisko"
+                                    Binding="{Binding Path=Stanowisko}" />
+                <DataGridTextColumn Header="Data Urodzenia"
+                                    Binding="{Binding Path=DataUrodzenia}" />
+                <DataGridTextColumn Header="Stanowisko"
+                                    Binding="{Binding Path=Stanowisko}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Expander Header="Umowa"
+                  IsExpanded="True">
+            <Grid>
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding UmowaView}"
+                    CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nr umowy"
+                                            Binding="{Binding Path=IdUmowy}" />
+                        <DataGridTextColumn Header="Data rozpoczecia"
+                                            Binding="{Binding Path=DataRozpoczecia}" />
+                        <DataGridTextColumn Header="Data zakonczenia"
+                                            Binding="{Binding Path=DataZakonczenia}" />
+                        <DataGridTextColumn Header="Wartosc Brutto"
+                                            Binding="{Binding Path=KwotaBrutto, StringFormat={}{0:N2}zł}" />
+                        <DataGridTextColumn Header="Czy Aktywny"
+                                            Binding="{Binding Path=CzyAktywna}" />
+                        <DataGridTextColumn Header="Opis"
+                                            Binding="{Binding Path=Opis}" />
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </Grid>
+        </Expander>
+        <Expander Header="Adres"
+                  IsExpanded="True">
+            <Grid>
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding AdresView}"
+                    CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Miejscowosc"
+                                            Binding="{Binding Path=Miejscowosc}" />
+                        <DataGridTextColumn Header="Ulica"
+                                            Binding="{Binding Path=Ulica}" />
+                        <DataGridTextColumn Header="Nr Domu"
+                                            Binding="{Binding Path=NrDomu}" />
+                        <DataGridTextColumn Header="Nr Lokalu"
+                                            Binding="{Binding Path=NrLokalu}" />
+                        <DataGridTextColumn Header="Kod Pocztowy"
+                                            Binding="{Binding Path=KodPocztowy}" />
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </Grid>
+        </Expander>
+    </StackPanel>
+</UserControl>
