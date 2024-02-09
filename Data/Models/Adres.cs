@@ -18,11 +18,7 @@
 
         [StringLength(50)] public string? KodPocztowy { get; set; }
 
-        //// Właściwość nawigacyjna do Pracownika
-        //public virtual Pracownik Pracownik { get; set; }
-        
-        //// Właściwość nawigacyjna do Kontrahenta
-        //public virtual Kontrahent Kontrahent { get; set; }
-
+        [Column(TypeName = "date")]
+        public DateTime CreateDate { get; set; }
     }
 }

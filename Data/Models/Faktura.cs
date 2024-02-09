@@ -16,6 +16,9 @@
 
         [Column(TypeName = "date")] public DateTime? TerminPlatnosci { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime CreateDate { get; set; }
+
         public int? IdSposobuPlatnosci { get; set; }
 
         [ForeignKey("IdKontrahenta")]

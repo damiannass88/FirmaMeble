@@ -5,9 +5,11 @@
               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               mc:Ignorable="d" 
               d:DesignHeight="450" d:DesignWidth="1000">
-    <Grid Height="810" Background="BlanchedAlmond">
+    <Grid Height="{Binding DataGridHeight}" Background="BlanchedAlmond">
         <DataGrid AutoGenerateColumns="False"
                   ItemsSource="{Binding List}"
+                  d:ItemsSource="{d:SampleData ItemCount=10}"
+                  HorizontalScrollBarVisibility="Visible"
                   CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id Pracownika"
@@ -34,6 +36,8 @@
                                     Binding="{Binding Path=DataUrodzenia}" />
                 <DataGridTextColumn Header="Stanowisko"
                                     Binding="{Binding Path=Stanowisko}" />
+                <DataGridTextColumn Header="Data Utworzenia"
+                                    Binding="{Binding Path=CreateDate}" MinWidth="120"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

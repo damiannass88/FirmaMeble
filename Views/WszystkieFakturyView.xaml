@@ -12,7 +12,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Height="770">
+    <Grid Height="{Binding DataGridHeight}">
         <DataGrid Style="{StaticResource DataGridDefaultStyle}" ItemsSource="{Binding List}" d:ItemsSource="{d:SampleData ItemCount=10}"
                   CanUserAddRows="False" HorizontalScrollBarVisibility="Visible">
             <DataGrid.Columns>
@@ -24,6 +24,7 @@
                 <DataGridTextColumn Header="Adres" Binding="{Binding KontrahentAdres}" CellStyle="{DynamicResource DataGridTextColumnDefaultStyle}"/>
                 <DataGridTextColumn Header="Termin Platnosci" Binding="{Binding TerminPlatnosci}" CellStyle="{DynamicResource DataGridTextColumnDefaultStyle}"/>
                 <DataGridTextColumn Header="Sposob platnosci" Binding="{Binding SposobPlatnosciNazwa}" CellStyle="{DynamicResource DataGridTextColumnDefaultStyle}"/>
+                <DataGridTextColumn Header="Data Utworzenia" Binding="{Binding CreateDate}" CellStyle="{DynamicResource DataGridTextColumnDefaultStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
 

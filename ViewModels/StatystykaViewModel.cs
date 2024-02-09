@@ -1,65 +1,75 @@
 ﻿namespace FirmaMeble.ViewModels
 {
+    using System.Globalization;
     using System.Windows.Input;
     using Base;
     using Commands;
-    using Data.DbContexts;
+    using Data.BusinessLogic;
 
-    internal class StatystykaViewModel : WorkspaceViewModel
+    public class StatystykaViewModel : WorkspaceViewModel
     {
-        protected readonly DataBaseEntities DbEntities;
-
-        //private ObservableCollection<T> list;
-
-        protected StatystykaViewModel()
+        public StatystykaViewModel()
         {
             TabHeaderName = "Statystyka";
-            DbEntities = new DataBaseEntities();
-            //LoadContext();
+            DateFrom = DateTime.Today;
+            DateTo = DateTime.Today;
         }
 
-        public ICommand LoadCommand => new RelayCommand(LoadContext);
+        public ICommand GetAverageEmployeeAgeCommand => new RelayCommand(GetAverageEmployeeAge);
+        
+        public ICommand GetLiczbaPracownikowCommand => new RelayCommand(GetLiczbaPracownikowZatrudnionychOdDaty);
+        
+        public ICommand GetYoungestPracownikCommand => new RelayCommand(GetYoungestPracownik);
+        
+        public ICommand GetOldestPracownikCommand => new RelayCommand(GetOldestPracownik);
+        
+        public ICommand GetProcentPracownikowWithEmailCommand => new RelayCommand(GetProcentPracownikowWithEmail);
 
-        public ICommand RefreshCommand => new RelayCommand(LoadContext);
+        public DateTime DateFrom { get; set; }
 
-        //public ObservableCollection<T> List
-        //{
-        //    get => list;
+        public DateTime DateTo { get; set; }
 
-        //    set
-        //    {
-        //        list = value;
-        //        OnPropertyChanged(() => List);
-        //    }
-        //}
+        public string StatisticResult { get; set; }
 
-        private void LoadContext()
+        private void GetAverageEmployeeAge()
         {
-            //TryLoadDataContext(GetQueryStatement());
+            double averageDaysAge = DataStatistics.AverageWiekPracownikowOdDaty(DateFrom, DateTo);
+            double averageAge = averageDaysAge / 365.25;
+            StatisticResult = averageAge.ToString("F2", CultureInfo.InvariantCulture) + " lat";
+            FireUpdatedStatisticResult();
         }
-
-        //public abstract IQueryable<T> GetQueryStatement();
-
-        //public virtual void TryLoadDataContext(IQueryable<T> listStatement)
-        //{
-        //    try
-        //    {
-        //        List<T> collection = listStatement.ToList();
-
-        //        if (collection.Any())
-        //        {
-        //            List = new ObservableCollection<T>(collection);
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Brak Records!", "Komunikat");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Could not load View! \n\n Error: \n" + ex, "Błąd ładowania danych!");
-        //        List = new ObservableCollection<T>();
-        //    }
-        //}
+        
+        private void GetLiczbaPracownikowZatrudnionychOdDaty()
+        {
+            double employeeCount = DataStatistics.LiczbaPracownikowZatrudnionychOdDaty(DateFrom, DateTo);
+            StatisticResult = employeeCount.ToString(CultureInfo.InvariantCulture) + " pracowników";
+            FireUpdatedStatisticResult();
+        }
+        
+        private void GetYoungestPracownik()
+        {
+            double employeeAge = DataStatistics.YoungestPracownik();
+            StatisticResult = employeeAge.ToString("F2", CultureInfo.InvariantCulture) + " pracownik Najstarszy";
+            FireUpdatedStatisticResult();
+        }
+        
+        private void GetOldestPracownik()
+        {
+            double employeeAge = DataStatistics.OldestPracownik();
+            StatisticResult = employeeAge.ToString("F2", CultureInfo.InvariantCulture) + " pracownik Najmłodszy";
+            FireUpdatedStatisticResult();
+        }
+        
+        private void GetProcentPracownikowWithEmail()
+        {
+            double employeeAge = DataStatistics.ProcentPracownikowWithEmail();
+            StatisticResult = employeeAge.ToString("F2", CultureInfo.InvariantCulture) + " %";
+            FireUpdatedStatisticResult();
+        }
+        
+        private void FireUpdatedStatisticResult()
+        {
+            OnPropertyChanged(() => StatisticResult);
+        }
     }
 }

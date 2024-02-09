@@ -5,6 +5,8 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
 
+    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
     <Style x:Key="MainHCCStyle" TargetType="{x:Type HeaderedContentControl}">
         <Setter Property="HeaderTemplate">
             <Setter.Value>
@@ -33,67 +35,28 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="ControlMenuForJeden">
-        <Grid>
-            <Grid.Resources>
-                <ResourceDictionary Source="/Views/View_Resources/StyleZakladekDictionary.xaml" />
-            </Grid.Resources>
-            <ToolBar Style="{StaticResource ToolBarStandardowy}">
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Button Command="{Binding SaveAndClearFormCommand}">
-                    <Image Style="{StaticResource ImageToolBarStandardowy}"
-                           ToolTip="Zapisz i Wyczyść formularz"
-                           Source="/Resources/Icons/contract-plus.png" />
-                </Button>
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Button Command="{Binding SaveAndCloseCommand}">
-                    <Image Style="{StaticResource ImageToolBarStandardowy}"
-                           ToolTip="Zapisz i Zamknij kartę"
-                           Source="/Resources/Icons/save.png" />
-                </Button>
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Button Command="{Binding ClearEntireFormCommand}"
-                        ToolTip="Wyczyść formularz">
-                    <Image Style="{StaticResource ImageToolBarStandardowy}"
-                           Source="/Resources/Icons/summarize.png" />
-                </Button>
-                <Separator />
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Button Command="{Binding CloseCommand}"
-                        ToolTip="Zamknij kartę">
-                    <Image Style="{StaticResource ImageToolBarStandardowy}"
-                           Source="/Resources/Icons/cancel.png" />
-                </Button>
-            </ToolBar>
-        </Grid>
-    </DataTemplate>
+    <Style x:Key="RoundedButton" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="13">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
 
-    <DataTemplate x:Key="ControlMenuForWszystkie">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.Resources>
-                <ResourceDictionary Source="/Views/View_Resources/StyleZakladekDictionary.xaml" />
-            </Grid.Resources>
-            <ToolBar Style="{StaticResource ToolBarStandardowy}">
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Button Command="{Binding RefreshCommand}"
-                        ToolTip="Odśwież dane">
-                    <Image Style="{StaticResource ImageToolBarStandardowy}"
-                           Source="/Resources/Icons/refresh.png" />
-                </Button>
-                <Separator />
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Button Command="{Binding CloseCommand}"
-                        ToolTip="Zamknij kartę">
-                    <Image Style="{StaticResource ImageToolBarStandardowy}"
-                           Source="/Resources/Icons/cancel.png" />
-                </Button>
-            </ToolBar>
-        </Grid>
-    </DataTemplate>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="HotPink" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <!--
   This style ensures that the borders in the main window are consistent.
@@ -105,58 +68,6 @@
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
     </Style>
-
-    <!--
-  This template explains how to render the list of commands on the left
-  side in the main window (the 'Control Panel' area).
-  -->
-    <DataTemplate x:Key="CommandsTemplate">
-        <ItemsControl IsTabStop="False" ItemsSource="{Binding}" Margin="6,2">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding DisplayAsideName}" Command="{Binding Path=Command}" Margin="6"
-                            Padding="5" Background="LightBlue" BorderThickness="0" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </DataTemplate>
-
-    <!-- 
-  This template explains how to render 
-  a tab item with a close button.
-  -->
-    <DataTemplate x:Key="ClosableTabItemTemplate">
-        <DockPanel Width="120">
-            <Button
-                Command="{Binding Path=CloseCommand}"
-                Content="X"
-                Cursor="Hand"
-                DockPanel.Dock="Right"
-                Focusable="False"
-                FontFamily="Courier"
-                FontSize="9"
-                FontWeight="Bold"
-                Margin="0,1,0,0"
-                Padding="0"
-                VerticalContentAlignment="Bottom"
-                Width="16" Height="16" />
-            <ContentPresenter
-                Content="{Binding Path=TabHeaderName}"
-                VerticalAlignment="Center" />
-        </DockPanel>
-    </DataTemplate>
-
-    <!--
-  This template explains how to render the 'Workspace' content area in the main window.
-  -->
-    <DataTemplate x:Key="WorkspacesTemplate">
-        <TabControl
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding}"
-            ItemTemplate="{StaticResource ClosableTabItemTemplate}"
-            Margin="4" />
-    </DataTemplate>
-
 
     <!-- Styl dla DataGrid -->
     <Style TargetType="{x:Type DataGrid}" x:Key="DataGridDefaultStyle">
@@ -209,6 +120,184 @@
         </Setter>
     </Style>
 
+    <DataTemplate x:Key="ControlMenuForJeden">
+        <Grid>
+            <Grid.Resources>
+                <ResourceDictionary Source="/Views/View_Resources/StyleZakladekDictionary.xaml" />
+            </Grid.Resources>
+            <ToolBar Style="{StaticResource ToolBarStandardowy}">
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding SaveAndClearFormCommand}">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           ToolTip="Zapisz i Wyczyść formularz"
+                           Source="/Resources/Icons/contract-plus.png" />
+                </Button>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding SaveAndCloseCommand}">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           ToolTip="Zapisz i Zamknij kartę"
+                           Source="/Resources/Icons/save.png" />
+                </Button>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding ClearEntireFormCommand}"
+                        ToolTip="Wyczyść formularz">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           Source="/Resources/Icons/summarize.png" />
+                </Button>
+                <Separator />
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Button Command="{Binding CloseCommand}"
+                        ToolTip="Zamknij kartę">
+                    <Image Style="{StaticResource ImageToolBarStandardowy}"
+                           Source="/Resources/Icons/cancel.png" />
+                </Button>
+            </ToolBar>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ControlMenuForWszystkie">
+        <Grid>
+            <Grid.Resources>
+                <ResourceDictionary Source="/Views/View_Resources/StyleZakladekDictionary.xaml" />
+            </Grid.Resources>
+
+            <ToolBar VerticalAlignment="Top" Style="{StaticResource ToolBarStandardowy}">
+                <ToolBar.Resources>
+                    <Style TargetType="{x:Type ToolBarPanel}">
+                        <Setter Property="Orientation" Value="Vertical" />
+                    </Style>
+                </ToolBar.Resources>
+
+                <DockPanel>
+                    <ToolBarPanel Orientation="Horizontal">
+                        <Button Command="{Binding RefreshCommand}"
+                                Margin="5,2"
+                                ToolTip="Odśwież dane">
+                            <Image Style="{StaticResource ImageToolBarStandardowy}"
+                                   Source="/Resources/Icons/refresh.png" />
+                        </Button>
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                        <Button Command="{Binding CloseCommand}"
+                                Margin="5,2"
+                                ToolTip="Zamknij kartę">
+                            <Image Style="{StaticResource ImageToolBarStandardowy}"
+                                   Source="/Resources/Icons/cancel.png" />
+                        </Button>
+                    </ToolBarPanel>
+                    <Button HorizontalAlignment="Right"
+                            DockPanel.Dock="Right"
+                            Command="{Binding ToggleFiltrSortPanelCommand}"
+                            ToolTip="Pokaż/Ukryj Filtrowanie i Sortowanie"
+                            Background="Pink"
+                            BorderBrush="DarkGray"
+                            Foreground="DimGray"
+                            BorderThickness="3"
+                            Padding="5"
+                            FontWeight="Bold"
+                            Content="Filtrowanie i Sortowanie"
+                            Cursor="Hand"
+                            Style="{StaticResource RoundedButton}" />
+                </DockPanel>
+            </ToolBar>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FiltrSortPanel">
+        <DockPanel Height="28" HorizontalAlignment="Stretch" Margin="2" Background="#FFE884B6">
+
+            <Label Content="Create Date od:"/>
+            <DatePicker SelectedDate="{Binding Path=CreateDataForm, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <Label Content="Data do:" />
+            <DatePicker SelectedDate="{Binding Path=CreateDataTo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <Button Command="{Binding FireFiltrByDateCommand}"
+                    ToolTip="Filtruj"
+                    Background="LawnGreen"
+                    BorderBrush="DarkGray"
+                    Foreground="DimGray"
+                    BorderThickness="3"
+                    Padding="5"
+                    Margin="5,0,10,0"
+                    FontFamily="Cooper Black"
+                    Content="Go!"
+                    Cursor="Hand"
+                    Style="{StaticResource RoundedButton}" />
+
+            <Label Content="Szukaj Frazy:" Margin="15,0,0,0" />
+            <TextBox Width="180" Margin="0,2" Text="{Binding SearchContext}" />
+
+            <Button Command="{Binding FireFiltrByTextCommand}"
+                    ToolTip="Filtruj"
+                    Background="Yellow"
+                    BorderBrush="DarkGray"
+                    Foreground="DimGray"
+                    BorderThickness="3"
+                    Padding="5"
+                    Margin="5,0,10,0"
+                    FontFamily="Cooper Black"
+                    Content="Go!"
+                    Cursor="Hand"
+                    Style="{StaticResource RoundedButton}" />
+
+            <Label Content="Sortuj po:" Margin="100,0,0,0" />
+            <ComboBox ItemsSource="{Binding SortBy}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedItem="{Binding Path=SelectedSortBy, Mode=TwoWay, ValidatesOnDataErrors=True}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <!--
+  This template explains how to render the list of commands on the left
+  side in the main window (the 'Control Panel' area).
+  -->
+    <DataTemplate x:Key="CommandsTemplate">
+        <ItemsControl IsTabStop="False" ItemsSource="{Binding}" Margin="6,2">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding DisplayAsideName}" Command="{Binding Path=Command}" Margin="6"
+                            Padding="5" Background="LightBlue" BorderThickness="0" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+
+    <!-- 
+  This template explains how to render 
+  a tab item with a close button.
+  -->
+    <DataTemplate x:Key="ClosableTabItemTemplate">
+        <DockPanel Width="120">
+            <Button
+                Command="{Binding Path=CloseCommand}"
+                Content="X"
+                Cursor="Hand"
+                DockPanel.Dock="Right"
+                Focusable="False"
+                FontFamily="Courier"
+                FontSize="9"
+                FontWeight="Bold"
+                Margin="0,1,0,0"
+                Padding="0"
+                VerticalContentAlignment="Bottom"
+                Width="16" Height="16" />
+            <ContentPresenter
+                Content="{Binding Path=TabHeaderName}"
+                VerticalAlignment="Center" />
+        </DockPanel>
+    </DataTemplate>
+
+    <!--
+  This template explains how to render the 'Workspace' content area in the main window.
+  -->
+    <DataTemplate x:Key="WorkspacesTemplate">
+        <TabControl
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding}"
+            ItemTemplate="{StaticResource ClosableTabItemTemplate}"
+            Margin="4"
+            TabStripPlacement="Top" />
+    </DataTemplate>
+
     <!--tu bedziemy laczyc View z ViewModel zakładek-->
     <DataTemplate DataType="{x:Type vm:NowyTowarViewModel}">
         <StackPanel>
@@ -228,22 +317,31 @@
             <views:NowaFakturaView />
         </StackPanel>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:WszystkieFakturyViewModel}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+        </StackPanel>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type vm:WszystkieTowaryViewModel}">
         <StackPanel>
             <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <ContentPresenter ContentTemplate="{StaticResource FiltrSortPanel}"
+                              Content="{Binding}"
+                              Visibility="{Binding IsFiltrAndSortPanelVisible, 
+                UpdateSourceTrigger=PropertyChanged, 
+                Converter={StaticResource BoolToVisibilityConverter}}" />
             <views:WszystkieTowaryView />
         </StackPanel>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:WszyscyPracownicyViewModel}">
         <StackPanel>
             <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <ContentPresenter ContentTemplate="{StaticResource FiltrSortPanel}"
+                              Content="{Binding}"
+                              Visibility="{Binding IsFiltrAndSortPanelVisible,
+                UpdateSourceTrigger=PropertyChanged, 
+                Converter={StaticResource BoolToVisibilityConverter}}" />
             <views:WszyscyPracownicyView />
-        </StackPanel>
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:WszystkieFakturyViewModel}">
-        <StackPanel>
-            <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
-            <views:WszystkieFakturyView />
         </StackPanel>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:PracownicyUmowyViewModel}">
@@ -256,6 +354,11 @@
     <DataTemplate DataType="{x:Type vm:WszyscyKontrahenciViewModel}">
         <StackPanel>
             <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <ContentPresenter ContentTemplate="{StaticResource FiltrSortPanel}"
+                              Content="{Binding}"
+                              Visibility="{Binding IsFiltrAndSortPanelVisible,
+                UpdateSourceTrigger=PropertyChanged, 
+                Converter={StaticResource BoolToVisibilityConverter}}" />
             <views:WszyscyKontrahenciView />
         </StackPanel>
     </DataTemplate>
@@ -265,5 +368,9 @@
             <views:NowyKontrahentView />
         </StackPanel>
     </DataTemplate>
-
+    <DataTemplate DataType="{x:Type vm:StatystykaViewModel}">
+        <StackPanel>
+            <views:StatystykaView />
+        </StackPanel>
+    </DataTemplate>
 </ResourceDictionary>

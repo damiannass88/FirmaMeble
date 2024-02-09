@@ -7,9 +7,8 @@
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class WorkspaceViewModel : BaseViewModel
     {
-        public string? TabHeaderName { get; set; }
-
         public ICommand CloseCommand => new RelayCommand(OnRequestClose);
+        public string? TabHeaderName { get; set; }
 
         public event EventHandler? RequestClose;
 

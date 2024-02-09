@@ -21,6 +21,9 @@
 
         public string? Opis { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime CreateDate { get; set; }
+
         // Właściwość nawigacyjna dla Pracownika
         [InverseProperty("Umowa")] public virtual Pracownik Pracownik { get; set; }
     }

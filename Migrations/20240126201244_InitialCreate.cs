@@ -21,9 +21,10 @@ namespace FirmaMeble.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Miejscowosc = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Ulica = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    NrDomu = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    NrDomu = table.Column<int>(type: "int", maxLength: 50, nullable: true),
                     NrLokalu = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    KodPocztowy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    KodPocztowy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
                 constraints: table =>
                 {
@@ -112,7 +113,8 @@ namespace FirmaMeble.Migrations
                     StawkaVatSprzedazy = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
                     StawkaVatZakupu = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
                     Cena = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
-                    Marza = table.Column<decimal>(type: "decimal(18,0)", nullable: true)
+                    Marza = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
                 constraints: table =>
                 {
@@ -130,7 +132,8 @@ namespace FirmaMeble.Migrations
                     DataZakonczenia = table.Column<DateTime>(type: "date", nullable: true),
                     KwotaBrutto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CzyAktywna = table.Column<bool>(type: "bit", nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
                 constraints: table =>
                 {
@@ -189,7 +192,8 @@ namespace FirmaMeble.Migrations
                     Nazwa = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Nip = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     IdStatusu = table.Column<int>(type: "int", nullable: true),
-                    IdAdresu = table.Column<int>(type: "int", nullable: false)
+                    IdAdresu = table.Column<int>(type: "int", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
                 constraints: table =>
                 {
@@ -225,6 +229,7 @@ namespace FirmaMeble.Migrations
                     Pesel = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Stanowisko = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DataUrodzenia = table.Column<DateTime>(type: "date", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     IdAdresu = table.Column<int>(type: "int", nullable: false),
                     IdUmowy = table.Column<int>(type: "int", nullable: false)
                 },
@@ -277,6 +282,7 @@ namespace FirmaMeble.Migrations
                     DataWystawienia = table.Column<DateTime>(type: "date", nullable: true),
                     IdKontrahenta = table.Column<int>(type: "int", nullable: true),
                     TerminPlatnosci = table.Column<DateTime>(type: "date", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     IdSposobuPlatnosci = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -304,7 +310,8 @@ namespace FirmaMeble.Migrations
                     KlientIdKontrahenta = table.Column<int>(type: "int", nullable: false),
                     DataZamowienia = table.Column<DateTime>(type: "date", nullable: false),
                     StatusZamowienia = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PrzewidywanaDataDostawy = table.Column<DateTime>(type: "date", nullable: true)
+                    PrzewidywanaDataDostawy = table.Column<DateTime>(type: "date", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
                 constraints: table =>
                 {
@@ -386,8 +393,8 @@ namespace FirmaMeble.Migrations
                 columns: new[] { "IdAdresu", "KodPocztowy", "Miejscowosc", "NrDomu", "NrLokalu", "Ulica" },
                 values: new object[,]
                 {
-                    { 1, "00-950", "Warszawa", "10", "15", "Marszałkowska" },
-                    { 2, "31-019", "Kraków", "5", "2", "Floriańska" }
+                    { 1, "00-950", "Warszawa", 10, "15", "Marszałkowska" },
+                    { 2, "31-019", "Kraków", 5, "2", "Floriańska" }
                 });
 
             migrationBuilder.InsertData(
@@ -437,7 +444,7 @@ namespace FirmaMeble.Migrations
             migrationBuilder.InsertData(
                 table: "Umowa",
                 columns: new[] { "IdUmowy", "CzyAktywna", "DataRozpoczecia", "DataZakonczenia", "KwotaBrutto", "Opis", "StanowiskoId" },
-                values: new object[] { 1, false, new DateTime(2024, 1, 25, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2027, 1, 25, 0, 0, 0, 0, DateTimeKind.Local), 300m, "Jakiś opis", 1 });
+                values: new object[] { 1, false, new DateTime(2024, 1, 26, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2027, 1, 26, 0, 0, 0, 0, DateTimeKind.Local), 300m, "Jakiś opis", 1 });
 
             migrationBuilder.InsertData(
                 table: "Kontrahent",
@@ -451,12 +458,12 @@ namespace FirmaMeble.Migrations
             migrationBuilder.InsertData(
                 table: "Pracownik",
                 columns: new[] { "IdPracownika", "DataUrodzenia", "DrugieImie", "Email", "IdAdresu", "IdUmowy", "Imie", "ImieMatki", "ImieOjca", "MiejsceUrodzenia", "Nazwisko", "Nip", "Pesel", "Stanowisko", "Telefon" },
-                values: new object[] { 1, new DateTime(1979, 1, 25, 0, 0, 0, 0, DateTimeKind.Local), "Matejko", "kasia@wp.pl", 1, 1, "Maciek", "Kasia", "Stanisław", "Nowy Sącz", "Kowalski", "1234567890", "77021205531", "Profesor", "1234567" });
+                values: new object[] { 1, new DateTime(1979, 1, 26, 0, 0, 0, 0, DateTimeKind.Local), "Matejko", "kasia@wp.pl", 1, 1, "Maciek", "Kasia", "Stanisław", "Nowy Sącz", "Kowalski", "1234567890", "77021205531", "Profesor", "1234567" });
 
             migrationBuilder.InsertData(
                 table: "Faktura",
                 columns: new[] { "IdFaktury", "DataWystawienia", "IdKontrahenta", "IdSposobuPlatnosci", "Numer", "TerminPlatnosci" },
-                values: new object[] { 2, new DateTime(2024, 1, 25, 17, 21, 48, 898, DateTimeKind.Local).AddTicks(2220), 1, 1, "FV/2024/01", new DateTime(2024, 2, 24, 17, 21, 48, 898, DateTimeKind.Local).AddTicks(2267) });
+                values: new object[] { 2, new DateTime(2024, 1, 26, 21, 12, 44, 403, DateTimeKind.Local).AddTicks(8753), 1, 1, "FV/2024/01", new DateTime(2024, 2, 25, 21, 12, 44, 403, DateTimeKind.Local).AddTicks(8807) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dostawca_IdAdresu",

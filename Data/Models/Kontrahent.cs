@@ -18,6 +18,9 @@
 
         public int IdAdresu { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime CreateDate { get; set; }
+
         [InverseProperty("IdKontrahentaNavigation")]
         public virtual ICollection<Faktura> FakturaDbSet { get; set; } = new List<Faktura>();
 

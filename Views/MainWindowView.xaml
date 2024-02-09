@@ -149,6 +149,11 @@
                     <Image Source="..\Resources\Icons\pz.png" />
                 </Button>
                 <Separator />
+                <Button Width="32" Height="32" Background="LightBlue" Margin="2"
+                        Command="{Binding ShowStatystykaCommand}" Cursor="Hand">
+                    <Image Source="..\Resources\Icons\measuring_tape-plus.png" />
+                </Button>
+                <Separator />
             </ToolBar>
 
             <Grid Grid.Row="3">

@@ -17,5 +17,8 @@
         [StringLength(50)] public string StatusZamowienia { get; set; }
 
         [Column(TypeName = "date")] public DateTime? PrzewidywanaDataDostawy { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime CreateDate { get; set; }
     }
 }

@@ -32,7 +32,9 @@
         
         [Column(TypeName = "date")] public DateTime DataUrodzenia { get; set; }
 
-        
+        [Column(TypeName = "date")]
+        public DateTime CreateDate { get; set; }
+
         public int IdAdresu { get; set; }
 
         // Właściwość nawigacyjna dla Adresu

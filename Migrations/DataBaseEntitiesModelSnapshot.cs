@@ -30,6 +30,11 @@ namespace FirmaMeble.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAdresu"));
 
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
                     b.Property<string>("KodPocztowy")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -38,9 +43,9 @@ namespace FirmaMeble.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("NrDomu")
+                    b.Property<int?>("NrDomu")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("int");
 
                     b.Property<string>("NrLokalu")
                         .HasMaxLength(50)
@@ -58,18 +63,20 @@ namespace FirmaMeble.Migrations
                         new
                         {
                             IdAdresu = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             KodPocztowy = "00-950",
                             Miejscowosc = "Warszawa",
-                            NrDomu = "10",
+                            NrDomu = 10,
                             NrLokalu = "15",
                             Ulica = "Marszałkowska"
                         },
                         new
                         {
                             IdAdresu = 2,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             KodPocztowy = "31-019",
                             Miejscowosc = "Kraków",
-                            NrDomu = "5",
+                            NrDomu = 5,
                             NrLokalu = "2",
                             Ulica = "Floriańska"
                         });
@@ -111,6 +118,11 @@ namespace FirmaMeble.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdFaktury"));
 
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
                     b.Property<DateTime?>("DataWystawienia")
                         .HasColumnType("date");
 
@@ -139,11 +151,12 @@ namespace FirmaMeble.Migrations
                         new
                         {
                             IdFaktury = 2,
-                            DataWystawienia = new DateTime(2024, 1, 25, 17, 21, 48, 898, DateTimeKind.Local).AddTicks(2220),
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataWystawienia = new DateTime(2024, 1, 26, 21, 12, 44, 403, DateTimeKind.Local).AddTicks(8753),
                             IdKontrahenta = 1,
                             IdSposobuPlatnosci = 1,
                             Numer = "FV/2024/01",
-                            TerminPlatnosci = new DateTime(2024, 2, 24, 17, 21, 48, 898, DateTimeKind.Local).AddTicks(2267)
+                            TerminPlatnosci = new DateTime(2024, 2, 25, 21, 12, 44, 403, DateTimeKind.Local).AddTicks(8807)
                         });
                 });
 
@@ -190,6 +203,11 @@ namespace FirmaMeble.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdKontrahenta"));
 
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
                     b.Property<int>("IdAdresu")
                         .HasColumnType("int");
 
@@ -220,6 +238,7 @@ namespace FirmaMeble.Migrations
                         new
                         {
                             IdKontrahenta = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdAdresu = 1,
                             IdStatusu = 1,
                             Nazwa = "Klient A"
@@ -227,6 +246,7 @@ namespace FirmaMeble.Migrations
                         new
                         {
                             IdKontrahenta = 2,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdAdresu = 2,
                             IdStatusu = 2,
                             Nazwa = "Dostawca X"
@@ -266,6 +286,11 @@ namespace FirmaMeble.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPracownika"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime>("DataUrodzenia")
                         .HasColumnType("date");
@@ -344,7 +369,8 @@ namespace FirmaMeble.Migrations
                         new
                         {
                             IdPracownika = 1,
-                            DataUrodzenia = new DateTime(1979, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataUrodzenia = new DateTime(1979, 1, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             DrugieImie = "Matejko",
                             Email = "kasia@wp.pl",
                             IdAdresu = 1,
@@ -595,6 +621,11 @@ namespace FirmaMeble.Migrations
                     b.Property<decimal?>("Cena")
                         .HasColumnType("decimal(18, 0)");
 
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
                     b.Property<string>("Kod")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -625,6 +656,11 @@ namespace FirmaMeble.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUmowy"));
 
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
                     b.Property<bool>("CzyAktywna")
                         .HasColumnType("bit");
 
@@ -651,9 +687,10 @@ namespace FirmaMeble.Migrations
                         new
                         {
                             IdUmowy = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CzyAktywna = false,
-                            DataRozpoczecia = new DateTime(2024, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
-                            DataZakonczenia = new DateTime(2027, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DataRozpoczecia = new DateTime(2024, 1, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            DataZakonczenia = new DateTime(2027, 1, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             KwotaBrutto = 300m,
                             Opis = "Jakiś opis",
                             StanowiskoId = 1
@@ -696,6 +733,11 @@ namespace FirmaMeble.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdZamowienia"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime>("DataZamowienia")
                         .HasColumnType("date");

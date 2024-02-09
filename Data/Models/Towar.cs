@@ -19,5 +19,8 @@
         [Column(TypeName = "decimal(18, 0)")] public decimal? Cena { get; set; }
 
         [Column(TypeName = "decimal(18, 0)")] public decimal? Marza { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime CreateDate { get; set; }
     }
 }

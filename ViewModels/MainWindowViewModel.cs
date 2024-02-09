@@ -33,6 +33,8 @@ namespace FirmaMeble.ViewModels
         
         public ICommand ShowUmowyPracownikowCommand => new RelayCommand(ShowAllUmowyPracownikow);
 
+        public ICommand ShowStatystykaCommand => new RelayCommand(CreateStatystyka);
+
         public ReadOnlyCollection<CommandViewModel> GetAvailableCommands => new(CreateCommands());
 
         public ObservableCollection<WorkspaceViewModel> WorkspacesTabViewsCollection { get; set; }
@@ -54,7 +56,8 @@ namespace FirmaMeble.ViewModels
                 new CommandViewModel("All Faktury", new RelayCommand(ShowAllFaktury)),
                 new CommandViewModel("Umowy Pracowników", new RelayCommand(ShowAllUmowyPracownikow)),
                 new CommandViewModel("Nowy Kontrahent", new RelayCommand(CreateKontrahent)),
-                new CommandViewModel("All Kontrahent", new RelayCommand(ShowAllKontrahent))
+                new CommandViewModel("All Kontrahent", new RelayCommand(ShowAllKontrahent)),
+                new CommandViewModel("Statystyka", new RelayCommand(CreateStatystyka))
             ];
         }
 
@@ -174,6 +177,13 @@ namespace FirmaMeble.ViewModels
                 WorkspacesTabViewsCollection.Add(workspace);
             }
 
+            SetActiveWorkspace(workspace);
+        }
+
+        private void CreateStatystyka()
+        {
+            StatystykaViewModel workspace = new();
+            WorkspacesTabViewsCollection.Add(workspace);
             SetActiveWorkspace(workspace);
         }
 

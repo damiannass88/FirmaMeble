@@ -49,16 +49,24 @@
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ConfigureCreateDate<Adres>();
+            modelBuilder.ConfigureCreateDate<Faktura>();
+            modelBuilder.ConfigureCreateDate<Kontrahent>();
+            modelBuilder.ConfigureCreateDate<Pracownik>();
+            modelBuilder.ConfigureCreateDate<Towar>();
+            modelBuilder.ConfigureCreateDate<Umowa>();
+            modelBuilder.ConfigureCreateDate<Zamowienie>();
+
             // Dodanie danych początkowych
             modelBuilder.Entity<Adres>().HasData(
                 new Adres
                 {
-                    IdAdresu = 1, Miejscowosc = "Warszawa", Ulica = "Marszałkowska", NrDomu = "10", NrLokalu = "15",
+                    IdAdresu = 1, Miejscowosc = "Warszawa", Ulica = "Marszałkowska", NrDomu = 10, NrLokalu = "15",
                     KodPocztowy = "00-950"
                 },
                 new Adres
                 {
-                    IdAdresu = 2, Miejscowosc = "Kraków", Ulica = "Floriańska", NrDomu = "5", NrLokalu = "2",
+                    IdAdresu = 2, Miejscowosc = "Kraków", Ulica = "Floriańska", NrDomu = 5, NrLokalu = "2",
                     KodPocztowy = "31-019"
                 }
             );
