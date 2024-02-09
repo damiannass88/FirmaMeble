@@ -1,14 +1,11 @@
 ﻿namespace FirmaMeble.ViewModels
 {
     using System.Windows;
-    using System.Windows.Input;
     using Base;
-    using Commands;
     using Data.Models;
 
     public class NowyTowarViewModel : JedenViewModel<Towar>
     {
-
         public NowyTowarViewModel()
             : base("Towar")
         {
@@ -27,11 +24,6 @@
                     OnPropertyChanged(() => Kod);
                 }
             }
-        }
-
-        public override void ClearForm()
-        {
-            MessageBox.Show("ClearForm!", "Formularz");
         }
 
         public string? Nazwa
@@ -104,10 +96,14 @@
             }
         }
 
-        public override bool IsDateSetValid()
+        public override void ClearForm()
         {
-            throw new NotImplementedException();
+            MessageBox.Show("ClearForm!", "Formularz");
         }
 
+        public override bool IsDateSetValid()
+        {
+            return true;
+        }
     }
 }
