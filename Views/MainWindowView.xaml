@@ -204,7 +204,7 @@
                     </Image>
                 </StatusBarItem>
                 <StatusBarItem>
-                    <TextBlock>WSB-NLU</TextBlock>
+                    <TextBlock>WSB</TextBlock>
                 </StatusBarItem>
                 <Separator />
                 <StatusBarItem HorizontalAlignment="Left">

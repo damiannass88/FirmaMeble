@@ -205,10 +205,12 @@
     <DataTemplate x:Key="FiltrSortPanel">
         <DockPanel Height="28" HorizontalAlignment="Stretch" Margin="2" Background="#FFE884B6">
 
-            <Label Content="Create Date od:"/>
-            <DatePicker SelectedDate="{Binding Path=CreateDataForm, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <Label Content="Create Date od:" />
+            <DatePicker
+                SelectedDate="{Binding Path=CreateDataForm, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
             <Label Content="Data do:" />
-            <DatePicker SelectedDate="{Binding Path=CreateDataTo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <DatePicker
+                SelectedDate="{Binding Path=CreateDataTo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
             <Button Command="{Binding FireFiltrByDateCommand}"
                     ToolTip="Filtruj"
                     Background="LawnGreen"
@@ -320,6 +322,12 @@
     <DataTemplate DataType="{x:Type vm:WszystkieFakturyViewModel}">
         <StackPanel>
             <ContentPresenter ContentTemplate="{StaticResource ControlMenuForWszystkie}" Content="{Binding}" />
+            <ContentPresenter ContentTemplate="{StaticResource FiltrSortPanel}"
+                              Content="{Binding}"
+                              Visibility="{Binding IsFiltrAndSortPanelVisible, 
+                UpdateSourceTrigger=PropertyChanged,
+                Converter={StaticResource BoolToVisibilityConverter}}" />
+            <views:WszystkieFakturyView />
         </StackPanel>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:WszystkieTowaryViewModel}">
